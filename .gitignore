@@ -61,3 +61,16 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/target/
+
+*.classpath
+.settings/org.eclipse.wst.common.project.facet.core.xml
+*.project
+.settings/.jsdtscope
+.settings/org.eclipse.wst.common.component
+.settings/org.eclipse.wst.validation.prefs
+*.container
+.settings/org.eclipse.m2e.core.prefs
+.settings/org.eclipse.core.resources.prefs
+*.prefs
+.settings/org.eclipse.wst.jsdt.ui.superType.name

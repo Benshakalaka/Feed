@@ -8,10 +8,9 @@
 		<result property="fansCount" column="fans_count" javaType = "int"></result>
 		<result property="followCount" column="follow_count" javaType = "int"></result>
 	</resultMap>
-	
 	<insert id="add">
 		insert into
 		t_user_info(user_id,user_name)
-		values(userId,userName)
+		values(#{userId},#{userName})
 	</insert>
 </mapper>

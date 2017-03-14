@@ -1,10 +1,10 @@
 package feed.web.dao;
 
-import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.stereotype.Repository;
 
 import feed.web.model.po.UserInfoPo;
 
-@MapperScan
+@Repository
 public interface UserInfoDao extends BaseDao<UserInfoPo>{
 	
 }
