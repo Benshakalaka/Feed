@@ -15,9 +15,21 @@ public class UserInfoServiceImpl implements UserInfoService{
 	private UserInfoDao userInfoDao;
 	
 	@Override
-	public void addUser(UserInfoVo userInfo) {
-		UserInfoPo po = userInfo.toPo();
-		userInfoDao.add(po);
+	public void add(UserInfoVo userInfo) {
+		UserInfoPo userPo = userInfo.toPo();
+		userInfoDao.add(userPo);
+	}
+
+	@Override
+	public UserInfoVo get(String userName) {
+		UserInfoPo userPo = userInfoDao.get(userName);
+		return userPo.toVo();
+	}
+
+	@Override
+	public void update(int userId, UserInfoVo userInfo) {
+		UserInfoPo userPo = userInfo.toPo();
+		userInfoDao.update(userId, userPo);
 	}
 
 }

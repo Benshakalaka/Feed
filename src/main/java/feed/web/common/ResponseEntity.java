@@ -2,18 +2,15 @@ package feed.web.common;
 
 public class ResponseEntity<T> {
 	
-	private T data;
+    private T data;
 	
-	private int code;
-	
-	private String message;
+	private ResponseCode code;
 	
 	public ResponseEntity(){}
 	
-	public ResponseEntity(T data, int code, String message){
+	public ResponseEntity(T data, ResponseCode code){
 		this.data = data;
 		this.code = code;
-		this.message = message;
 	}
 
 	public T getData() {
@@ -24,21 +21,12 @@ public class ResponseEntity<T> {
 		this.data = data;
 	}
 
-	public int getCode() {
+	public ResponseCode getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
+	public void setCode(ResponseCode code) {
 		this.code = code;
 	}
 
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	
-	
 }

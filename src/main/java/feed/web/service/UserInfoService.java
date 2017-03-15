@@ -6,5 +6,24 @@ import feed.web.model.vo.UserInfoVo;
 
 @Service
 public interface UserInfoService {
-	void addUser(UserInfoVo userInfo);
+	
+	/**
+	 * 添加用户
+	 * @param userInfo
+	 */
+	void add(UserInfoVo userInfo);
+	
+	/**
+	 * 获取用户信息
+	 * @param userName
+	 */
+	UserInfoVo get(String userName);
+	
+	
+	/**
+	 * 更新用户属性
+	 * @param userId
+	 * @param userInfo
+	 */
+	void update(int userId, UserInfoVo userInfo);
 }

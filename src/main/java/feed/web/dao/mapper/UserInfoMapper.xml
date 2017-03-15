@@ -5,12 +5,28 @@
 		<id property="userId" column="user_id" javaType="int"></id>
 		<result property="userName" column="user_name" javaType="string"></result>
 		<result property="msgCount" column="msg_count" javaType="int"></result>
-		<result property="fansCount" column="fans_count" javaType = "int"></result>
-		<result property="followCount" column="follow_count" javaType = "int"></result>
+		<result property="fansCount" column="fans_count" javaType="int"></result>
+		<result property="followCount" column="follow_count" javaType="int"></result>
 	</resultMap>
+
 	<insert id="add">
 		insert into
 		t_user_info(user_id,user_name)
 		values(#{userId},#{userName})
 	</insert>
+
+	<select id="get" parameterType="string" resultMap="userInfoMap">
+		select * from
+		t_user_info
+		where user_name = #{userName}
+	</select>
+
+	<update id="update">
+		update
+		t_user_info
+		set
+		user_name = #{userInfo.userName}
+		where user_id = #{_userId}
+	</update>
+
 </mapper>

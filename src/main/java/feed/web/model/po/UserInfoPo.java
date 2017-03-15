@@ -1,5 +1,7 @@
 package feed.web.model.po;
 
+import feed.web.model.vo.UserInfoVo;
+
 /**
  * 用户信息Po对象
  * @author Boxbox
@@ -75,5 +77,14 @@ public class UserInfoPo {
 		this.followCount = followCount;
 	}
 	
+	public UserInfoVo toVo(){
+		UserInfoVo vo = new UserInfoVo();
+		vo.setUserId(userId);
+		vo.setUserName(userName);
+		vo.setMsgCount(msgCount);
+		vo.setFansCount(fansCount);
+		vo.setFollowCount(followCount);
+		return vo;
+	}
 	
 }
