@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="feed.web.dao.UserRelationDao">
+
+	<insert id="add" parameterType="feed.web.model.po.UserRelationPo">
+		insert into
+		t_user_relation(user_id,follow_id,type)
+		values(#{user_id},#{follow_id},#{type})
+	</insert>
+
+	<delete id="delete" parameterType="feed.web.model.po.UserRelationPo">
+		delete from
+		t_user_relation
+		where
+		user_id = #{userId}
+		and
+		follow_id = #{follow_id}
+		and
+		type = #{type}
+	</delete>
+	
+	<select id="getFansList" parameterType="int">
+		select
+		follow_id
+		from t_user_relation
+	</select>
+	
+	<select id="getFollowList" parameterType="int">
+	</select>
+	
+</mapper>
