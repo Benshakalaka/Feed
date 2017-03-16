@@ -15,7 +15,7 @@ public class RequestUtil {
 	 * 判断请求是否是ajax请求
 	 * 
 	 * @paramrequest HttpServletRequest
-	 * @return是否ajax请求.
+	 * @return 是否ajax请求.
 	 */
 	public static boolean isAjaxRequest(HttpServletRequest request) {
 		String xr = request.getHeader(X_REQUESTED_WIDTH);

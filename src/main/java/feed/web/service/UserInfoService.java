@@ -4,6 +4,11 @@ import org.springframework.stereotype.Service;
 
 import feed.web.model.vo.UserInfoVo;
 
+/**
+ * 用户信息Service
+ * @author Boxbox
+ *
+ */
 @Service
 public interface UserInfoService {
 	

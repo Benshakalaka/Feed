@@ -14,41 +14,62 @@
 	http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 
 	<!-- JNDI数据源 -->
-	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/feed" />
-	
+	<context:property-placeholder location="classpath:mysql.properties"/>  
+
+	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="idleConnectionTestPeriod" value="60" />
+		<property name="idleMaxAge" value="240" />
+		<property name="maxConnectionsPerPartition" value="30" />
+		<property name="minConnectionsPerPartition" value="10" />
+		<property name="partitionCount" value="3" />
+		<property name="acquireIncrement" value="5" />
+		<property name="statementsCacheSize" value="100" />
+		<property name="releaseHelperThreads" value="3" />
+	</bean>
+
+
 	<!-- 注解扫描路径 -->
-	<context:component-scan base-package="feed.web" />
+	<context:component-scan base-package="feed" />
 
 	<!-- 不处理静态资源路径 -->
 	<mvc:default-servlet-handler />
 
 	<!-- 使用注解 -->
 	<mvc:annotation-driven />
-	
+
 	<!-- MyBatis的SqlSessionFactory -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" scope="prototype">
-		<property name="dataSource" ref="dataSource"/>
-		<property name="configLocation" value="classpath:mybatis.cfg.xml"/>
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+		scope="prototype">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis.cfg.xml" />
 	</bean>
-	
+
 	<!-- sqlSessionTemplate -->
-	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"
+		scope="prototype">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
-	
+
 	<!-- 事务管理 -->
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource"/>
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
 	</bean>
-	
+
 	<!-- 使用注解管理事务 -->
-	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
-	
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
 
 	<!-- 配置接口存储的包，用来扫描mapper接口 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="feed.web.dao" />
-		<property name="sqlSessionTemplateBeanName" value="sqlSessionTemplate"/>
+		<property name="sqlSessionTemplateBeanName" value="sqlSessionTemplate" />
 		<property name="annotationClass" value="org.springframework.stereotype.Repository"></property>
 	</bean>
 </beans>
