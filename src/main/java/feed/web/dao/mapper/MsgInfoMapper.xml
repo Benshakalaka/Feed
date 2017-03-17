@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="feed.web.dao.MsgInfoDao">
+
+	<insert id="add" parameterType="feed.web.model.po.MsgInfoPo">
+		insert into
+		t_msg_info(
+			user_id,
+			msg_id,
+			content,
+			type,
+			commented_count,
+			comment_count,
+			transferred_count,
+			transfer_count,
+			time_t
+		) values(
+			#{userId},
+			＃{msgId},
+			#{content},
+			#{type},
+			#{commentedCount},
+			#{commentCount},
+			#{transferredCount},
+			#{transferCount},
+			unix_timestamp(now())
+		)
+	</insert>
+</mapper>

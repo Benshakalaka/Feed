@@ -52,4 +52,17 @@ public interface UserInfoDao {
 	 */
 	void followDecrement(@Param(value="userId") int userId);
 	
+	/**
+	 * 更新用户消息数
+	 * @param userId
+	 * @return
+	 */
+	void msgCountIncrement(@Param(value="userId") int userId);
+	
+	/**
+	 * 获取用户消息数
+	 * @param userId
+	 * @return
+	 */
+	int getMsgCount(@Param(value="userId") int userId);
 }

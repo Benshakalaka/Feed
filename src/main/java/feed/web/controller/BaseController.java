@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import feed.web.common.ResponseEntity;
+import feed.web.common.exception.FeedDaoException;
 import feed.web.common.exception.FeedServiceException;
 
 @Controller
@@ -22,7 +23,7 @@ public class BaseController {
 	public @ResponseBody ResponseEntity<Void> exceptionHandler(Exception e,
 			HttpServletRequest reqeust, HttpServletResponse response) {
 		ResponseEntity<Void> responseEntity = new ResponseEntity<Void>();
-		if(e instanceof DataAccessException){
+		if(e instanceof DataAccessException || e instanceof FeedDaoException){
 			responseEntity.setCode(DBFAILED);
 		}else if(e instanceof FeedServiceException){
 			responseEntity.setCode(LOGICFAILED);

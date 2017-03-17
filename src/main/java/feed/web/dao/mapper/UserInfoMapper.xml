@@ -69,5 +69,23 @@
 		where user_id = #{userId}
 	</update>
 	
+	<!-- 更新用户消息数-->
+	<update id="msgCountIncrement">
+		update
+		t_user_info
+		set
+		msg_count = msgcount + 1
+		where user_id = #{userId}
+	</update>
+	
+	<!-- 获取当前用户消息数-->
+	<select id="getMsgCount" parameterType="int" resultType="int">
+		select
+		msg_count
+		from
+		t_user_info
+		where user_id = #{userId}	
+	</select>
+	
 
 </mapper>

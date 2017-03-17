@@ -5,7 +5,7 @@
 	<insert id="add" parameterType="feed.web.model.po.UserRelationPo">
 		insert into
 		t_user_relation(user_id,follow_id,type)
-		values(#{user_id},#{follow_id},#{type})
+		values(#{userId},#{followId},#{type})
 	</insert>
 
 	<delete id="delete" parameterType="feed.web.model.po.UserRelationPo">
@@ -14,7 +14,7 @@
 		where
 		user_id = #{userId}
 		and
-		follow_id = #{follow_id}
+		follow_id = #{followId}
 		and
 		type = #{type}
 	</delete>
@@ -23,9 +23,16 @@
 		select
 		follow_id
 		from t_user_relation
+		where user_id = #{userId}
+		and type = 0 
 	</select>
 	
 	<select id="getFollowList" parameterType="int">
+		select
+		follow_id
+		from t_user_relation
+		where user_id = #{userId}
+		and type = 1 
 	</select>
 	
 </mapper>
