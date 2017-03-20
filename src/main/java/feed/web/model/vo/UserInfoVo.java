@@ -20,6 +20,11 @@ public class UserInfoVo {
 	private String userName;
 	
 	/**
+	 * 用户密码
+	 */
+	private String userPwd;
+	
+	/**
 	 * 消息总数
 	 */
 	private Integer msgCount;
@@ -77,10 +82,19 @@ public class UserInfoVo {
 		this.followCount = followCount;
 	}
 	
+	public String getUserPwd() {
+		return userPwd;
+	}
+
+	public void setUserPwd(String userPwd) {
+		this.userPwd = userPwd;
+	}
+
 	public UserInfoPo toPo(){
 		UserInfoPo po = new UserInfoPo();
 		po.setUserId(userId);
 		po.setUserName(userName);
+		po.setUserPwd(userPwd);
 		po.setMsgCount(msgCount);
 		po.setFansCount(fansCount);
 		po.setFollowCount(followCount);

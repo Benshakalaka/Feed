@@ -41,6 +41,11 @@
 
 	<!-- 使用注解 -->
 	<mvc:annotation-driven />
+	
+	<!-- 配置拦截器 -->
+	<mvc:interceptors>  
+      <bean class="feed.web.common.auth.AuthInterceptor" />  
+    </mvc:interceptors>  
 
 	<!-- MyBatis的SqlSessionFactory -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"

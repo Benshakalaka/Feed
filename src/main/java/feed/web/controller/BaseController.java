@@ -1,8 +1,8 @@
 package feed.web.controller;
 
-import static feed.web.common.ResponseCodeEnum.DBFAILED;
-import static feed.web.common.ResponseCodeEnum.LOGICFAILED;
-import static feed.web.common.ResponseCodeEnum.UNCATCHED;
+import static feed.web.common.ResponseEnum.DBFAILED;
+import static feed.web.common.ResponseEnum.LOGICFAILED;
+import static feed.web.common.ResponseEnum.UNCATCHED;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

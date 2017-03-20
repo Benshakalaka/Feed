@@ -31,4 +31,12 @@ public interface UserInfoService {
 	 * @param userInfo
 	 */
 	void update(int userId, UserInfoVo userInfo);
+	
+	/**
+	 * 用户登录
+	 * @param userId
+	 * @param password
+	 * @return 登录成功返回一个JWT字符串，否则返回一个null
+	 */
+	String login(int userId, String password);
 }

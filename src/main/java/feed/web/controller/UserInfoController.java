@@ -1,6 +1,6 @@
 package feed.web.controller;
 
-import static feed.web.common.ResponseCodeEnum.SUCCESS;
+import static feed.web.common.ResponseEnum.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +37,15 @@ public class UserInfoController extends BaseController {
 	public ResponseEntity<Void> update(
 			@PathVariable(value = "userId") int userId,
 			@RequestBody UserInfoVo userInfo) {
-		userService.update(userId, userInfo); 
+		userService.update(userId, userInfo);
 		return new ResponseEntity<Void>(null, SUCCESS);
+	}
+
+	@RequestMapping(value = "/login/{userId}/{userPwd}", method = RequestMethod.POST)
+	public ResponseEntity<String> login(
+			@PathVariable(value = "userId") int userId,
+			@PathVariable(value = "userPwd") String userPwd) {
+		String token = userService.login(userId, userPwd);
+		return new ResponseEntity<String>(token, SUCCESS);
 	}
 }
