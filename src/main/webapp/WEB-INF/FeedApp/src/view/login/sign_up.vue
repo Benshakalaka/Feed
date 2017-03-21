@@ -6,7 +6,7 @@
 <style lang="scss" rel="stylesheet/scss">
   .sign-up-section {
     height: 120%;
-    width: 40%;
+    width: 450px;
     float: right;
     margin-top: -5%;
     background-color: #fff;

@@ -1,13 +1,13 @@
 <template>
   <div class="sign-in-section">
-
+    <h2>登陆</h2>
   </div>
 </template>
 
 <style lang="scss" rel="stylesheet/scss">
   .sign-in-section {
     height: 120%;
-    width: 40%;
+    width: 400px;
     float: left;
     margin-top: -5%;
     background-color: #fff;
@@ -23,6 +23,7 @@
 </style>
 
 <script type="text/ecmascript-6">
+
   export default {
     data () {
       return {
