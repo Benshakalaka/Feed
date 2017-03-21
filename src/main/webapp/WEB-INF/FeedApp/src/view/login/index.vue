@@ -19,7 +19,7 @@
       height: 60%;
       min-width: 950px;
       margin: 10% auto auto auto;
-      opacity: .6;
+      opacity: .9;
       padding: 0 35px;
       background: url("../../../static/unsplash_1.jpeg") no-repeat center;
     }
