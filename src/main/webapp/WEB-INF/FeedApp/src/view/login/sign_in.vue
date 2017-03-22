@@ -14,12 +14,19 @@
         inputType="password"
       >
       </label-input>
-      <div :style="{'margin-top': (contentMargin+15)+'px'}">
+      <div :style="{'margin-top': `${contentMargin}px`}">
         <el-checkbox>记住密码</el-checkbox>
         <a href="javascript:void(0)"><span class="missing-password">忘记密码</span></a>
       </div>
 
-      <el-button type="primary" slot='foot'>登录</el-button>
+      <custom-button
+        type="primary"
+        slot="foot"
+        :showText="showText"
+        :loading="isLogining"
+        @click="clickHandler"
+      >
+      </custom-button>
     </abstract-form>
   </div>
 </template>
@@ -54,22 +61,31 @@
 <script type="text/ecmascript-6">
   import LabelInput from '../../components/labelInput.vue'
   import AbstractForm from '../../components/abstractForm.vue'
+  import CustomButton from '../../components/customButton.vue'
   import Vue from 'vue'
-  import { Checkbox, Button } from 'element-ui'
+  import { Checkbox } from 'element-ui'
 
   Vue.use(Checkbox)
-  Vue.use(Button)
 
   export default {
     name: 'sign-in',
     data () {
       return {
-        contentMargin: 0
+        contentMargin: 0,
+        showText: '登录',
+        isLogining: false
       }
     },
     components: {
       'label-input': LabelInput,
-      'abstract-form': AbstractForm
+      'abstract-form': AbstractForm,
+      'custom-button': CustomButton
+    },
+    methods: {
+      clickHandler () {
+        this.isLogining = true
+        this.showText = '正在登录中···'
+      }
     }
   }
 </script>

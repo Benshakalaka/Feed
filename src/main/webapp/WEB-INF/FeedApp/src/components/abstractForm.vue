@@ -29,16 +29,22 @@
 
     .section-head {
       padding-top: 20px;
-      height: 15%;
+      height: 14%;
     }
 
     .section-body {
-      width: 80%;
+      padding: 0 10%;
       height: 65%;
-      margin: 0 auto;
       display: flex;
       justify-content: space-around;
       flex-direction: column;
+    }
+
+    .section-foot {
+      height:10%;
+      padding: 0 10%;
+      display: flex;
+      align-items:center;
     }
   }
 </style>
