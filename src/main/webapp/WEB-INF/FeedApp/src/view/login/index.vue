@@ -18,6 +18,7 @@
       width: 65%;
       height: 60%;
       min-width: 950px;
+      min-height: 420px;
       margin: 10% auto auto auto;
       opacity: .9;
       padding: 0 35px;

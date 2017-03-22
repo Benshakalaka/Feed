@@ -1,9 +1,8 @@
 <template>
   <div class="sign-in-section">
-    <div class="section-head">
-      <h1>登录</h1>
-    </div>
-    <div class="section-body">
+    <abstract-form>
+      <h1 slot="header">登录</h1>
+
       <label-input
         :topMargin="contentMargin * 2"
         labelText="邮箱地址"
@@ -19,10 +18,9 @@
         <el-checkbox>记住密码</el-checkbox>
         <a href="javascript:void(0)"><span class="missing-password">忘记密码</span></a>
       </div>
-    </div>
-    <div class="section-foot">
 
-    </div>
+      <el-button type="primary" slot='foot'>登录</el-button>
+    </abstract-form>
   </div>
 </template>
 
@@ -32,42 +30,22 @@
     width: 400px;
     float: left;
     margin-top: -5%;
-    background-color: #fff;
-    min-height: 485px;
 
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-
-    -webkit-box-shadow: 2px 2px 56px rgba(0,0,0,.2);
-    -moz-box-shadow: 2px 2px 56px rgba(0,0,0,.2);
-    box-shadow: 2px 2px 56px rgba(0,0,0,.2);
-
-    .section-head {
-      padding-top: 20px;
-
-      h1 {
-        font-size: 28px;
-        text-align: center;
-        letter-spacing: 5px;
-        font-weight: 400;
-        font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-      }
+    h1 {
+      font-size: 28px;
+      text-align: center;
+      letter-spacing: 5px;
+      font-weight: 400;
     }
 
-    .section-body {
-      width: 80%;
-      padding: 0 10%;
-
-      .missing-password {
-        float: right;
-        font-size: 14px;
-        opacity: .5;
-        
-        &:hover, &:active {
-          opacity: 1;
-          color: #f00;
-        }
+    .missing-password {
+      float: right;
+      font-size: 14px;
+      opacity: .5;
+      
+      &:hover, &:active {
+        opacity: 1;
+        color: #f00;
       }
     }
   }
@@ -75,20 +53,23 @@
 
 <script type="text/ecmascript-6">
   import LabelInput from '../../components/labelInput.vue'
+  import AbstractForm from '../../components/abstractForm.vue'
   import Vue from 'vue'
-  import Checkbox from 'element-ui'
+  import { Checkbox, Button } from 'element-ui'
 
   Vue.use(Checkbox)
+  Vue.use(Button)
 
   export default {
     name: 'sign-in',
     data () {
       return {
-        contentMargin: 45
+        contentMargin: 0
       }
     },
     components: {
-      'label-input': LabelInput
+      'label-input': LabelInput,
+      'abstract-form': AbstractForm
     }
   }
 </script>
