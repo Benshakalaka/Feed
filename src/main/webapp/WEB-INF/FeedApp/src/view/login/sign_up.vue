@@ -7,6 +7,8 @@
               :topMargin="contentMargin * 2"
               labelText="邮箱地址"
               placeText="用于登录和密码找回"
+              :errorText="emailError"
+              @change="emailChangeHandler"
       ></label-input>
       <label-input
               :topMargin="contentMargin * 2"
@@ -36,7 +38,6 @@
               slot="foot"
               :showText="showText"
               :loading="isRegisting"
-              @click="clickHandler"
       ></custom-button>
     </abstract-form>
   </div>
@@ -70,13 +71,23 @@
       return {
         contentMargin: 0,
         showText: '注册',
-        isRegisting: false
+        isRegisting: false,
+        emailError: ''
       }
     },
     components: {
       'label-input': LabelInput,
       'abstract-form': AbstractForm,
       'custom-button': CustomButton
+    },
+    methods: {
+      emailChangeHandler (event, value) {
+        if (value.length > 5) {
+          this.emailError = '邮箱格式输入错误！'
+        } else {
+          this.emailError = ''
+        }
+      }
     }
   }
 </script>

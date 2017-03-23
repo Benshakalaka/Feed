@@ -1,8 +1,6 @@
 <template>
   <div class="label-input-section" :style="{'margin-top': labelMarginTop}">
     <div class="label" :class="labelClass">{{ labelText }}</div>
-    <i class="input-clear fa" :class="[inputClearIconClass, iconVagueClass]" v-if="inputType === 'text' && !passwordShow" @click="clearClickHandler"></i>
-    <i class="input-see fa" :class="[passwordShow?noSeeIconClass:seeIconClass, iconVagueClass]" v-if="inputType==='password' || passwordShow" @click="pwdClickHandler"></i>
     <input
       :type="labelInputType"
       :placeholder="placeholder"
@@ -10,11 +8,20 @@
       @focus="labelInputFocus"
       @blur="labelInputBlur"
       ref="inputEle"
-    >
-    <div class="underline">
+    ><!--
+    --><i class="input-icon fa" :class="[inputClearIconClass, iconVagueClass]" v-if="inputType === 'text' && !passwordShow" @click="clearClickHandler"></i><!--
+    --><i class="input-icon fa" :class="[passwordShow?noSeeIconClass:seeIconClass, iconVagueClass]" v-if="inputType==='password' || passwordShow" @click="pwdClickHandler"></i>
+
+    <div class="underline" :class="[errorText?'error-underline':'']">
       <hr class="normal-line">
       <hr class="info-line" :class="{focus: focus}">
     </div>
+
+    <transition name="error-fade">
+      <div class="input-error" v-if="errorText">
+        {{ errorText }}
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -24,8 +31,8 @@
     line-height: 40px;
     height: 40px;
     margin: 0 auto;
-    position: relative;on: relative;
     font-size: 15px;
+    overflow: hidden;
 
     .label {
       position: absolute;
@@ -43,10 +50,10 @@
       }
     }
     
-    .input-clear, .input-see {
+    .input-icon {
       position: absolute;
-      right: 5px;
-      bottom: 12px;
+      display: inline-block;
+      margin: 12px 0 0 -20px;
     }
 
     .icon-vague {
@@ -54,6 +61,7 @@
     }
 
     input {
+      display: inline-block;
       width: 100%;
       height: 38px;
       outline: none;
@@ -66,6 +74,7 @@
 
     .underline {
       position: relative;
+      margin-top: -2px;
 
       hr {
         position: absolute;
@@ -90,6 +99,27 @@
           transform: scaleX(1);
         }
       }
+    }
+
+    .error-underline .info-line {
+      background-color: #f44336;
+    }
+
+    .input-error {
+      color: #f00;
+      position: absolute;
+      font-size: 12px;
+      text-align: right;
+      padding-left: 5px;
+    }
+
+    .error-fade-enter, .error-fade-leave-active {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+
+    .error-fade-enter-active, .error-fade-leave-active {
+      transition: all .8s ease;
     }
   }
 </style>
@@ -129,6 +159,9 @@
       inputClearIconClass: {
         type: String,
         default: 'fa-times'
+      },
+      errorText: {
+        type: String
       }
     },
     computed: {

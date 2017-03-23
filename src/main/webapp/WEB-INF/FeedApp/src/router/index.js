@@ -15,11 +15,13 @@ export default new Router({
       children: [
         {
           path: 'sign-in',
-          component: SignIn
+          component: SignIn,
+          name: 'signin'
         },
         {
           path: 'sign-up',
-          component: SignUp
+          component: SignUp,
+          name: 'signup'
         }
       ]
     }

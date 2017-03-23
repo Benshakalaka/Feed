@@ -1,8 +1,10 @@
 <template>
   <div class="login-section">
-    <div class="card">
-      <transition>
-        <router-view></router-view>
+    <div class="card" @click="signFormChange">
+      <transition name="sign-fade">
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </transition>
     </div>
   </div>
@@ -35,6 +37,14 @@
       }
     },
     components: {
+    },
+    methods: {
+      signFormChange (event) {
+        if (event.target === this.$el.getElementsByClassName('card')[0]) {
+          let redirectRouter = (this.$route.name === 'signin' ? 'signup' : 'signin')
+          this.$router.replace({name: redirectRouter})
+        }
+      }
     }
   }
 </script>
