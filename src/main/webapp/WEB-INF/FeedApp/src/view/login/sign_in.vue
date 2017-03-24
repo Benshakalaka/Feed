@@ -28,6 +28,9 @@
       >
       </custom-button>
     </abstract-form>
+    <div class="switch-text switch-text-right" v-if="showSwitchText">
+      {{ switchText }}<router-link :to="{name:'signup'}">注册</router-link>
+    </div>
   </div>
 </template>
 
@@ -55,6 +58,15 @@
         color: #f00;
       }
     }
+
+    .switch-text-right {
+      position: absolute;
+    }
+
+    .switch-text-right {
+      left: 480px;
+      bottom: 20px;
+    }
   }
 </style>
 
@@ -73,7 +85,15 @@
       return {
         contentMargin: 0,
         showText: '登录',
-        isLogining: false
+        isLogining: false,
+        switchText: '还没有账号？点击',
+        switchTextEnabled: true
+      }
+    },
+    props: {
+      transitionEnd: {
+        type: Boolean,
+        default: false
       }
     },
     components: {
@@ -85,6 +105,18 @@
       clickHandler () {
         this.isLogining = true
         this.showText = '正在登录中···'
+      }
+    },
+    beforeRouteLeave (to, from, next) {
+      this.switchTextEnabled = false
+      next()
+    },
+    activated () {
+      this.switchTextEnabled = true
+    },
+    computed: {
+      showSwitchText () {
+        return this.switchText && this.transitionEnd && this.switchTextEnabled
       }
     }
   }
