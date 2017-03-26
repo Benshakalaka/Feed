@@ -4,16 +4,13 @@
       <h1 slot="header">登录</h1>
 
       <label-input
-        :topMargin="contentMargin * 2"
         labelText="邮箱地址"
-      >
-      </label-input>
+      ></label-input>
       <label-input
         :topMargin="contentMargin"
         labelText="请输入密码"
         inputType="password"
-      >
-      </label-input>
+      ></label-input>
       <div :style="{'margin-top': `${contentMargin}px`}">
         <el-checkbox>记住密码</el-checkbox>
         <a href="javascript:void(0)"><span class="missing-password">忘记密码</span></a>
@@ -25,8 +22,7 @@
         :showText="showText"
         :loading="isLogining"
         @click="clickHandler"
-      >
-      </custom-button>
+      ></custom-button>
     </abstract-form>
     <div class="switch-text switch-text-right" v-if="showSwitchText">
       {{ switchText }}<router-link :to="{name:'signup'}">注册</router-link>
@@ -64,7 +60,7 @@
     }
 
     .switch-text-right {
-      left: 480px;
+      right: 80px;
       bottom: 20px;
     }
   }
@@ -83,8 +79,9 @@
     name: 'sign-in',
     data () {
       return {
-        contentMargin: 0,
+        contentMargin: 60,
         showText: '登录',
+        // 切换按钮状态
         isLogining: false,
         switchText: '还没有账号？点击',
         switchTextEnabled: true
@@ -107,15 +104,19 @@
         this.showText = '正在登录中···'
       }
     },
+    activated () {
+      // 在每次进入后，初始化一下状态
+      this.switchTextEnabled = true
+    },
     beforeRouteLeave (to, from, next) {
+      // 在路由切换出去后, 不能显示切换提示文本
+      // 这个情况本来想父组件传递进来的，但是父组件动画触发 before-leave 事件时，此组件已经不存在了(好像是这样?)
       this.switchTextEnabled = false
       next()
     },
-    activated () {
-      this.switchTextEnabled = true
-    },
     computed: {
       showSwitchText () {
+        // 显示文本需要三个条件： 1. 文本有内容   2. 不在动画切换过程中
         return this.switchText && this.transitionEnd && this.switchTextEnabled
       }
     }

@@ -17,11 +17,13 @@
       <hr class="info-line" :class="{focus: focus}">
     </div>
 
-    <transition name="error-fade">
-      <div class="input-error" v-if="errorText">
-        {{ errorText }}
-      </div>
-    </transition>
+    <div class="input-error">
+      <transition name="error-fade">
+        <span v-if="errorText">
+          {{ errorText }}
+        </span>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -109,8 +111,14 @@
       color: #f00;
       position: absolute;
       font-size: 12px;
+      line-height: 20px;
       text-align: right;
       padding-left: 5px;
+      overflow: hidden;
+
+      span {
+        display: block;
+      }
     }
 
     .error-fade-enter, .error-fade-leave-active {

@@ -7,14 +7,13 @@
       <h1 slot="header">注册</h1>
 
       <label-input
-              :topMargin="contentMargin * 2"
               labelText="邮箱地址"
               placeText="用于登录和密码找回"
               :errorText="emailError"
               @change="emailChangeHandler"
       ></label-input>
       <label-input
-              :topMargin="contentMargin * 2"
+              :topMargin="contentMargin"
               labelText="用户名"
       ></label-input>
       <label-input
@@ -22,12 +21,6 @@
               labelText="请输入密码"
               inputType="password"
               placeText="不少于8位, 区分大小写"
-      ></label-input>
-      <label-input
-              :topMargin="contentMargin"
-              labelText="请再次输入密码"
-              inputType="password"
-              placeText="再次确认您的密码"
       ></label-input>
       <label-input
               :topMargin="contentMargin"
@@ -70,7 +63,7 @@
     }
 
     .switch-text-left {
-      right: 480px;
+      left: 80px;
       bottom: 20px;
     }
   }
@@ -87,7 +80,7 @@
     name: 'signup',
     data () {
       return {
-        contentMargin: 0,
+        contentMargin: 40,
         showText: '注册',
         isRegisting: false,
         emailError: '',

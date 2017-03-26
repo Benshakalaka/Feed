@@ -10,9 +10,13 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '/login',
       component: LoginPage,
       children: [
+        {
+          path: '',
+          component: SignIn
+        },
         {
           path: 'sign-in',
           component: SignIn,

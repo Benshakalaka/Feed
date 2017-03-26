@@ -23,9 +23,9 @@
     -moz-border-radius: 5px;
     border-radius: 5px;
 
-    -webkit-box-shadow: 2px 2px 56px rgba(0,0,0,.2);
-    -moz-box-shadow: 2px 2px 56px rgba(0,0,0,.2);
-    box-shadow: 2px 2px 56px rgba(0,0,0,.2);
+    -webkit-box-shadow: 6px 6px 56px rgba(0,0,0,.2);
+    -moz-box-shadow: 6px 6px 56px rgba(0,0,0,.2);
+    box-shadow: 6px 6px 56px rgba(0,0,0,.2);
 
     .section-head {
       padding-top: 20px;
@@ -36,7 +36,7 @@
       padding: 0 10%;
       height: 65%;
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       flex-direction: column;
     }
 
