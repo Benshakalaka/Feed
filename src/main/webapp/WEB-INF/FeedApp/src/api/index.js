@@ -1,5 +1,5 @@
 import MockData from './data.js'
 
-export const getTypes = callback => {
+export const signin = callback => {
 	callback && callback(MockData)
 }

@@ -110,8 +110,8 @@
           positionYMin: Number(config.normal.backgroundPositionY.replace('px', '')) - config.normal.offsetMax
         }
         let mouseOverTimeout = null
-        let prevX = config.normal.backgroundPositionX
-        let prevY = config.normal.backgroundPositionY
+        let prevX = null
+        let prevY = null
 
         return function (event) {
           const cardEle = this.$refs.card
@@ -127,7 +127,7 @@
               const direName = 'backgroundPosition' + dire.toUpperCase()
               const style = cardEle.style
 
-              let offset = Math.abs(curr - prev) / 30
+              let offset = Math.floor(Math.abs(curr - prev) * config.normal.offsetRate)
               const originPosition = style[direName].replace('px', '')
 
               let finalPosi = Number(originPosition) + (curr > prev ? -offset : offset)
@@ -138,15 +138,15 @@
               style[direName] = finalPosi + 'px'
             }
 
-            changePosition('x', prevX, currX)
-            changePosition('y', prevY, currY)
+            prevX != null && changePosition('x', prevX, currX)
+            prevY != null && changePosition('y', prevY, currY)
 
             prevX = currX
             prevY = currY
 
             mouseOverTimeout = setTimeout(() => {
               mouseOverTimeout = null
-            }, 120)
+            }, config.normal.mousemoveInternal)
           }
         }
       })()
