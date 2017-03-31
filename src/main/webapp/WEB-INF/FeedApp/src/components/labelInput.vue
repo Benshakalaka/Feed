@@ -8,6 +8,7 @@
       @focus="labelInputFocus"
       @blur="labelInputBlur"
       ref="inputEle"
+      spellcheck="false"
     ><!--
     --><i class="input-icon fa" :class="[inputClearIconClass, iconVagueClass]" v-if="inputType === 'text' && !passwordShow" @click="clearClickHandler"></i><!--
     --><i class="input-icon fa" :class="[passwordShow?noSeeIconClass:seeIconClass, iconVagueClass]" v-if="inputType==='password' || passwordShow" @click="pwdClickHandler"></i>

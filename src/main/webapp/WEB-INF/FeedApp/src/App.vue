@@ -25,5 +25,7 @@
     right: 0;
     top: 0;
     bottom: 0;
+    // background: url(../static/img/background.png) repeat 0 0;
+    background-color: #f5f8fa;
   }
 </style>

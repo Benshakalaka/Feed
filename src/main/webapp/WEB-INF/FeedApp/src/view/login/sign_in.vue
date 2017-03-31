@@ -5,11 +5,16 @@
 
       <label-input
         labelText="邮箱地址"
+        placeText="请填写您的邮箱地址"
+        :errorText="emailError"
+        @change="usernameChange"
       ></label-input>
       <label-input
         :topMargin="contentMargin"
         labelText="请输入密码"
+        placeText="请填写您的密码"
         inputType="password"
+        @change="userpwdChange"
       ></label-input>
       <div :style="{'margin-top': `${contentMargin}px`}">
         <el-checkbox>记住密码</el-checkbox>
@@ -63,6 +68,13 @@
       right: 80px;
       bottom: 20px;
     }
+
+    .switch-text a{
+      color: #fff;
+      &:hover {
+        color: #42d885;
+      }
+    }
   }
 </style>
 
@@ -72,6 +84,8 @@
   import CustomButton from '../../components/customButton.vue'
   import Vue from 'vue'
   import { Checkbox } from 'element-ui'
+  import { login } from '../../api'
+  import { emailFormatValidate } from '../../utils'
 
   Vue.use(Checkbox)
 
@@ -80,11 +94,16 @@
     data () {
       return {
         contentMargin: 60,
+        // 按钮文字
         showText: '登录',
         // 切换按钮状态
         isLogining: false,
+        // 切换提示文字
         switchText: '还没有账号？点击',
-        switchTextEnabled: true
+        switchTextEnabled: true,
+        username: '',
+        emailError: '',
+        password: ''
       }
     },
     props: {
@@ -100,8 +119,31 @@
     },
     methods: {
       clickHandler () {
+        if (this.emailError || !this.username || !this.password) {
+          return
+        }
+
         this.isLogining = true
         this.showText = '正在登录中···'
+        login({
+          email: this.username,
+          password: this.password
+        }).then(data => {
+        }).catch(errorMsg => {
+          alert(errorMsg)
+        })
+      },
+      usernameChange (event, value) {
+        if (value && !emailFormatValidate(value)) {
+          this.emailError = '邮箱格式错误'
+          return
+        }
+
+        this.emailError = ''
+        this.username = value
+      },
+      userpwdChange (event, value) {
+        this.password = value
       }
     },
     activated () {
@@ -110,7 +152,7 @@
     },
     beforeRouteLeave (to, from, next) {
       // 在路由切换出去后, 不能显示切换提示文本
-      // 这个情况本来想父组件传递进来的，但是父组件动画触发 before-leave 事件时，此组件已经不存在了(好像是这样?)
+      // 这个情况本来想父组件传递进来的，但是父组件动画触发 before-leave 事件时，此组件已经不存在了
       this.switchTextEnabled = false
       next()
     },

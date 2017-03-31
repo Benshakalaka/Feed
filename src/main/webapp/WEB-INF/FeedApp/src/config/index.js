@@ -11,9 +11,9 @@ const normal = {
   // 允许的两个方向的最大偏移量
   offsetMax: 15,
   // 鼠标偏移量相对于图片位置偏移量的比例
-  offsetRate: 0.1,
+  offsetRate: 0.08,
   // 触发mousemove最终事件的时间间隔
-  mousemoveInternal: 100
+  mousemoveInternal: 80
 }
 
 export default {

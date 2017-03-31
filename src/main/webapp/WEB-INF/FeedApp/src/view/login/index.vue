@@ -1,6 +1,6 @@
 <template>
-  <div class="login-section">
-    <div class="card" :style="backgroundStyle" @click="signFormChange" @mousemove.stop="mouseOverHandler" ref="card">
+  <div class="login-section" @mousemove.stop="mouseOverHandler">
+    <div class="card" :style="backgroundStyle" @click="signFormChange" ref="card">
       <transition :name="formSwitchTransitionName" 
         @before-enter="beforeEnterTransitionEndHandler"
         @after-enter="enterTransitionEndHandler"
@@ -115,7 +115,9 @@
 
         return function (event) {
           const cardEle = this.$refs.card
+          // 不让事件直接绑定在card元素上, 避免出现鼠标从card上边界出来, 从下边界进去, 被误认为大幅度调整的情况
           if (event.target !== cardEle) {
+            prevX = prevY = null
             return
           }
 
@@ -123,7 +125,7 @@
           const currY = event.clientY
 
           if (mouseOverTimeout === null) {
-            let changePosition = (dire, prev, curr) => {
+            const changePosition = (dire, prev, curr) => {
               const direName = 'backgroundPosition' + dire.toUpperCase()
               const style = cardEle.style
 

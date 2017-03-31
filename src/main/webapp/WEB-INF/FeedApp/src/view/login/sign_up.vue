@@ -1,7 +1,7 @@
 <template>
   <div class="sign-up-section">
     <div class="switch-text switch-text-left" v-if="showSwitchText">
-      {{ switchText }}<router-link :to="{name:'signin'}">登陆</router-link>
+      {{ switchText }}<router-link :to="{name:'signin'}">登录</router-link>
     </div>
     <abstract-form>
       <h1 slot="header">注册</h1>
@@ -15,18 +15,24 @@
       <label-input
               :topMargin="contentMargin"
               labelText="用户名"
+              placeText="用于昵称显示"
+              @change="usernameChangeHandler"
       ></label-input>
       <label-input
               :topMargin="contentMargin"
               labelText="请输入密码"
               inputType="password"
+              :errorText="pwdError"
               placeText="不少于8位, 区分大小写"
+              @change="pwdChangeHandler"
       ></label-input>
       <label-input
               :topMargin="contentMargin"
               labelText="请再次输入密码"
               inputType="password"
+              :errorText="pwd2Error"
               placeText="再次确认您的密码"
+              @change="pwd2ChangeHandler"
       ></label-input>
 
       <custom-button
@@ -34,6 +40,7 @@
               slot="foot"
               :showText="showText"
               :loading="isRegisting"
+              @click="clickHandler"
       ></custom-button>
     </abstract-form>
   </div>
@@ -66,6 +73,13 @@
       left: 80px;
       bottom: 20px;
     }
+
+    .switch-text a{
+      color: #fff;
+      &:hover {
+        color: #20a0ff;
+      }
+    }
   }
 </style>
 
@@ -75,6 +89,8 @@
   import CustomButton from '../../components/customButton.vue'
   import Vue from 'vue'
   import { Checkbox } from 'element-ui'
+  import { regist } from '../../api'
+  import { emailFormatValidate } from '../../utils'
 
   export default {
     name: 'signup',
@@ -84,8 +100,14 @@
         showText: '注册',
         isRegisting: false,
         emailError: '',
+        pwdError: '',
+        pwd2Error: '',
         switchText: '已有账号？立即',
-        switchTextEnabled: true
+        switchTextEnabled: true,
+        email: '',
+        username: '',
+        password: '',
+        password2: ''
       }
     },
     props: {
@@ -101,11 +123,51 @@
     },
     methods: {
       emailChangeHandler (event, value) {
-        if (value.length > 5) {
+        if (!emailFormatValidate(value)) {
           this.emailError = '邮箱格式输入错误！'
-        } else {
-          this.emailError = ''
+          return
         }
+
+        this.emailError = ''
+        this.email = value
+      },
+      usernameChangeHandler (event, value) {
+        this.username = value
+      },
+      pwdChangeHandler (event, value) {
+        this.password = value
+
+        if (this.pwd2Error && value === this.password2) {
+          this.pwd2Error = ''
+        } else if (this.password2 && this.password2 !== value) {
+          this.pwd2Error = '两次密码输入不一致！'
+        }
+      },
+      pwd2ChangeHandler (event, value) {
+        if (value !== this.password) {
+          this.pwd2Error = '两次密码输入不一致！'
+        } else {
+          this.pwd2Error = ''
+        }
+
+        this.password2 = value
+      },
+      clickHandler () {
+        if (this.emailError || this.pwdError || this.pwd2Error) {
+          return
+        }
+
+        if (!this.email || !this.username || !this.password || !this.password2) {
+          return
+        }
+
+        regist({
+          email: this.email,
+          username: this.username,
+          password: this.password
+        }).then(data => {
+        }).catch(errorMsg => {
+        })
       }
     },
     computed: {
