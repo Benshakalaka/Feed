@@ -1,12 +1,17 @@
 <template>
-  <div>
+  <div class="index-page">
     <header-bar></header-bar>
+    <transition>
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
 <style lang="scss" rel="stylesheet/scss">
-  .home-container {
-
+  .index-page {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
   }
 </style>
 

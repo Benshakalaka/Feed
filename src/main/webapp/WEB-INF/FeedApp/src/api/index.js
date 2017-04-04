@@ -39,3 +39,7 @@ export const regist = ({email, username, password}) => {
     userPwd: password
   })
 }
+
+export const feedList = () => {
+  return get('/msg/home')
+}

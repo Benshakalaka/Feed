@@ -1,7 +1,7 @@
 <template>
   <div class="sign-up-section">
     <div class="switch-text switch-text-left" v-if="showSwitchText">
-      {{ switchText }}<router-link :to="{name:'signin'}">登录</router-link>
+      {{ switchText }}<router-link :to="{name:'signin'}" replace>登录</router-link>
     </div>
     <abstract-form>
       <h1 slot="header">注册</h1>
@@ -90,7 +90,7 @@
   import Vue from 'vue'
   import { Checkbox } from 'element-ui'
   import { regist } from '../../api'
-  import { emailFormatValidate } from '../../utils'
+  import { emailFormatValidate } from '../../common/js'
 
   export default {
     name: 'signup',

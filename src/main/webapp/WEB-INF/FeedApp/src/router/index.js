@@ -3,7 +3,9 @@ import Router from 'vue-router'
 import LoginPage from '../view/login/index.vue'
 import SignIn from '../view/login/sign_in.vue'
 import SignUp from '../view/login/sign_up.vue'
-import HomePage from '../view/home/index.vue'
+import IndexPage from '../view/index/index.vue'
+import MainContent from '../view/index/main_content.vue'
+import UserPage from '../view/user/index.vue'
 
 Vue.use(Router)
 
@@ -11,8 +13,46 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '',
-      component: HomePage
+      path: '/',
+      component: IndexPage,
+      children: [
+        {
+          path: '',
+          redirect: 'index'
+        },
+        {
+          path: 'index',
+          name: 'main',
+          component: MainContent
+        },
+        {
+          path: 'user/:username/',
+          component: UserPage,
+          name: 'userhome',
+          children: [
+            {
+              path: '',
+              redirect: 'profile'
+            },
+            {
+              path: 'profile',
+              name: 'userprofiles'
+            },
+            {
+              path: 'fans',
+              name: 'userfans'
+            },
+            {
+              path: 'follows',
+              name: 'userfollows'
+            }
+          ]
+        },
+        {
+          path: 'discover',
+          name: 'discover'
+        }
+      ]
     },
     {
       path: '/login',
@@ -20,7 +60,7 @@ export default new Router({
       children: [
         {
           path: '',
-          component: SignIn
+          redirect: 'sign-in'
         },
         {
           path: 'sign-in',

@@ -30,7 +30,7 @@
       ></custom-button>
     </abstract-form>
     <div class="switch-text switch-text-right" v-if="showSwitchText">
-      {{ switchText }}<router-link :to="{name:'signup'}">注册</router-link>
+      {{ switchText }}<router-link :to="{name:'signup'}" replace>注册</router-link>
     </div>
   </div>
 </template>
@@ -85,7 +85,7 @@
   import Vue from 'vue'
   import { Checkbox } from 'element-ui'
   import { login } from '../../api'
-  import { emailFormatValidate } from '../../utils'
+  import { emailFormatValidate } from '../../common/js'
 
   Vue.use(Checkbox)
 
