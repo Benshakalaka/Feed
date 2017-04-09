@@ -39,7 +39,9 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>消息设置</el-dropdown-item>
               <el-dropdown-item>账户绑定</el-dropdown-item>
-              <el-dropdown-item divided>登出</el-dropdown-item>
+              <router-link :to="{ name: 'signin'}" tag="li" active-class="active">
+                <el-dropdown-item divided>登出</el-dropdown-item>
+              </router-link>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
