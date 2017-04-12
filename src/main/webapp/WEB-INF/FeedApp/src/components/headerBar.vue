@@ -3,7 +3,8 @@
     <div class="nav-inner">
       <div class="user-related">
         <ul>
-          <router-link v-if="isLogin" :to="{ name: 'userhome', params: { username: 'Ben' }}" tag="li" active-class="active">
+          <!--<router-link v-if="isLogin" :to="{ name: 'userhome', params: { username: 'Ben' }}" tag="li" active-class="active">-->
+          <router-link v-if="isLogin" to="/user/Ben/profile" tag="li" active-class="active">
             <span>
               <i class="fa fa-user-o fa-lg"></i>
               {{ userInfo.username }}
@@ -46,7 +47,7 @@
           </el-dropdown>
         </div>
       </div>
-      <div class="loading-spinner" v-if="loading">
+      <div class="loading-spinner" v-if="isLoading">
         <Rainbow></Rainbow>
       </div>
     </div>
@@ -62,6 +63,7 @@
     background-color: #fff;
     position: fixed;
     top: 0;
+    z-index: 999;
 
     .nav-inner {
       width: $content-width;
@@ -193,14 +195,11 @@
       }
     },
     props: {
-      loading: {
-        type: Boolean,
-        default: false
-      }
     },
     computed: {
       ...mapGetters([
-        'userInfo'
+        'userInfo',
+        'isLoading'
       ]),
       isLogin () {
         return this.userInfo !== null

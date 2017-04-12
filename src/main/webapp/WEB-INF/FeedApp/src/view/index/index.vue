@@ -2,7 +2,7 @@
   <div class="index-page">
     <header-bar></header-bar>
     <transition>
-      <router-view></router-view>
+      <router-view style="height:100%;"></router-view>
     </transition>
   </div>
 </template>

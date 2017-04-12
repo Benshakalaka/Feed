@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import mutations from './mutations'
 import actions from './actions'
+import imgSplit from './modules/imgSplit'
 
 Vue.use(Vuex)
 
@@ -14,7 +15,8 @@ const state = {
     feedAmount: 0,
     fansAmount: 123,
     followAmount: 66
-  }
+  },
+  isLoading: false
 }
 
 // const state = {
@@ -24,6 +26,9 @@ const state = {
 const getters = {
   userInfo: state => {
     return state.user
+  },
+  isLoading: state => {
+    return state.isLoading
   }
 }
 
@@ -33,5 +38,6 @@ export default new Vuex.Store({
   mutations,
   actions,
   modules: {
+    imgSplit
   }
 })
