@@ -14,7 +14,8 @@ const state = {
     feedAmount: 0,
     fansAmount: 123,
     followAmount: 66
-  }
+  },
+  isLoading: false
 }
 
 // const state = {
@@ -24,6 +25,9 @@ const state = {
 const getters = {
   userInfo: state => {
     return state.user
+  },
+  isLoading: state => {
+    return state.isLoading
   }
 }
 

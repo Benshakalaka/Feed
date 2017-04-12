@@ -7,6 +7,7 @@ import IndexPage from '../view/index/index.vue'
 import MainContent from '../view/index/main_content.vue'
 import UserPage from '../view/user/index.vue'
 import DicoverPage from '../view/discover/index.vue'
+import ImageSplit from '../view/user/image_split.vue'
 
 Vue.use(Router)
 
@@ -27,7 +28,7 @@ export default new Router({
           component: MainContent
         },
         {
-          path: 'user/:username/',
+          path: 'user/:username',
           component: UserPage,
           name: 'userhome',
           children: [
@@ -37,7 +38,8 @@ export default new Router({
             },
             {
               path: 'profile',
-              name: 'userprofiles'
+              name: 'userprofiles',
+              component: ImageSplit
             },
             {
               path: 'fans',
