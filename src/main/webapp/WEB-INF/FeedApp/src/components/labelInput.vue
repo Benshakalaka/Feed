@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<style lang="scss" rel="stylesheet/scss">
+<style type="text/scss" lang="scss">
   .label-input-section {
     width: 100%;
     line-height: 40px;
@@ -52,7 +52,7 @@
         transform: translate3d(0, -20px, 0) scale(.85);
       }
     }
-    
+
     .input-icon {
       position: absolute;
       display: inline-block;
@@ -134,6 +134,8 @@
 </style>
 
 <script type="text/ecmascript-6">
+  import Vue from 'vue'
+
   export default {
     data () {
       return {
@@ -171,6 +173,10 @@
       },
       errorText: {
         type: String
+      },
+      originValue: {
+        type: String | Number,
+        default: ''
       }
     },
     computed: {
@@ -227,7 +233,19 @@
         // 上述修改不触发change事件，因此属性value值没变，下面手动变一下
         this.value = ''
         have2change && (this.$emit('change', null, ''))
+      },
+      initInputEle () {
+        if (this.originValue) {
+          Vue.nextTick(() => {
+            this.$refs.inputEle.value = this.originValue.split('/')[this.originValue.split('/').length - 1]
+          })
+          this.value = this.originValue
+          this.$emit('change', null, this.originValue)
+        }
       }
+    },
+    mounted () {
+      this.initInputEle()
     }
   }
 </script>

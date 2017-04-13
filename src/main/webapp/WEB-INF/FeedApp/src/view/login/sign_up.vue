@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<style lang="scss" rel="stylesheet/scss">
+<style type="text/scss" lang="scss">
   .sign-up-section {
     height: 140%;
     width: 400px;

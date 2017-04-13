@@ -26,7 +26,7 @@
   </div>
 </template>
 
-<style lang="scss" rel="stylesheet/scss">
+<style type="text/scss" lang="scss">
   @import "../../common/styles/_variables";
   $main-content-top: 58px;
 

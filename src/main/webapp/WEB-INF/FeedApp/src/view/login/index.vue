@@ -14,7 +14,7 @@
 
 </template>
 
-<style lang="scss" rel="stylesheet/scss">
+<style type="text/scss" lang="scss">
   .login-section {
     height: 100%;
     width: 100%;

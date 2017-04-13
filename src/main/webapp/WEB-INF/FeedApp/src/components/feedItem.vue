@@ -36,7 +36,7 @@
   </div>
 </template>
 
-<style lang="scss" rel="stylesheet/scss">
+<style type="text/scss" lang="scss">
   .feed-item {
     margin-top: 10px;
     width: 100%;

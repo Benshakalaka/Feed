@@ -2,12 +2,12 @@
   <div class="display-data data-one" v-if="count > 0" key="one-d">
     <div class="left-index">
       <ul>
-        <li v-for="n in Number(count)" @click="dataIndexData">{{ `片区${n}` }}</li>
+        <li v-for="n in Number(count)" @click="dataIndexData" :class="{active: oneCurrentAreaIndex === (n - 1)}">{{ `片区${n}` }}</li>
       </ul>
     </div><!--
           --><div class="right-data" ref="dataDisplayOne">
       <ul>
-        <li v-for="coords in dataDisplayOne">
+        <li v-for="(coords, index) in dataDisplayOne">
           <el-input
                   :value='`${coords.left},${coords.top}`'
                   icon="delete"
@@ -15,14 +15,17 @@
                   :name='"data-display-one-" + dataDisplayOne.indexOf(coords)'
                   @focus="displayDataChangeOne"
                   @blur="displayDataBlurOne"
-          ></el-input>
+                  @change="displayDataInputChangeOne"
+          >
+            <template slot="prepend">{{ index | twoNumberFilter }}</template>
+          </el-input>
         </li>
       </ul>
     </div>
   </div>
 </template>
 
-<style lang="scss" rel="stylesheet/scss">
+<style type="text/scss" lang="scss">
   .data-one {
     $left-index-width: 100px;
     $left-index-li-height: 45px;
@@ -53,6 +56,7 @@
           box-shadow: 6px 0 10px rgba(0,0,0,.2);
           border-bottom: 1px solid lighten(#ccc, 10%);
           border-right: 1px solid #ccc;
+          cursor: default;
 
           &.active {
             box-shadow: 0 0 0;
@@ -67,6 +71,7 @@
       float: left;
       box-sizing: border-box;
       padding: 10px 15px;
+      overflow: auto;
 
       ul {
         list-style: none;
@@ -79,7 +84,7 @@
 
         li {
           display: block;
-          width: 120px;
+          width: 140px;
           height: 36px;
           float: left;
           margin: 5px 15px;
@@ -115,25 +120,34 @@
     computed: {
       ...mapGetters([
         'count',
-        'dataDisplayOne'
+        'dataDisplayOne',
+        'oneCurrentAreaIndex'
       ])
     },
     methods: {
       ...mapMutations({
         'set_current_area_index': types.ONE_SET_CURRENT_AREA_INDEX,
+        'cancel_current_area_index': types.ONE_CANCEL_CURRENT_AREA_INDEX,
         'delete_current_area_coord': types.ONE_DELETE_CURRENT_AREA_COORD,
         'set_current_area_coord_index': types.ONE_SET_CURRENT_AREA_COORD_FPCUS_INDEX,
-        'cancel_current_area_coord': types.ONE_CANCEL_CURRENT_AREA_COORD_FPCUS_INDEX
+        'cancel_current_area_coord': types.ONE_CANCEL_CURRENT_AREA_COORD_FPCUS_INDEX,
+        'add_or_update_current_area_coord': types.ONE_ADD_OR_UPDATE_CURRENT_AREA_COORDS
       }),
       dataIndexData (event) {
         const li = event.target
-        li.classList.add('active')
-        Array.from(li.parentElement.children).map(item => {
-          li !== item && item.classList.remove('active')
-        })
-        this.set_current_area_index({
-          index: Array.prototype.indexOf.call(li.parentElement.children, li)
-        })
+        const index = Array.prototype.indexOf.call(li.parentElement.children, li)
+        if (index === this.oneCurrentAreaIndex) {
+          li.classList.remove('active')
+          this.cancel_current_area_index()
+        } else {
+          li.classList.add('active')
+          Array.from(li.parentElement.children).map(item => {
+            li !== item && item.classList.remove('active')
+          })
+          this.set_current_area_index({
+            index
+          })
+        }
       },
       displayDataDeleteOne (event) {
         let inputName = event.target.nextElementSibling.name
@@ -141,18 +155,30 @@
         this.delete_current_area_coord({index})
       },
       // 点击一个坐标, 表示希望修改该坐标
+      // 此处延迟是为了blur的延迟修改不影响紧接着的下一次focus
       displayDataChangeOne (event) {
-        let inputName = event.target.name
-        let index = Number(inputName.substring(inputName.lastIndexOf('-') + 1))
-        this.set_current_area_coord_index({index})
+        const _this = this
+        setTimeout(function () {
+          let inputName = event.target.name
+          let index = Number(inputName.substring(inputName.lastIndexOf('-') + 1))
+          _this.set_current_area_coord_index({index})
+        }, 150)
       },
       // 在点击坐标后表示希望修改, 一旦触发blur后立即触发图片点击事件表示真的修改
-      // 为focus事件做标记
+      // 延迟是为了在focus获取坐标index后, 点击图片某处修改该坐标, 继而blur释放此坐标index
       displayDataBlurOne (event) {
         const _this = this
         setTimeout(function () {
           _this.cancel_current_area_coord()
         }, 150)
+      },
+      displayDataInputChangeOne (value) {
+        this.add_or_update_current_area_coord({
+          coord: {
+            left: value.split(',')[0],
+            top: value.split(',')[1]
+          }
+        })
       }
     }
   }

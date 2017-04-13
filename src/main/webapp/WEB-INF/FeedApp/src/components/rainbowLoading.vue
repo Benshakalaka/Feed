@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<style lang="scss" rel="stylesheet/scss">
+<style type="text/scss" lang="scss">
   @mixin expand-all {
     position: absolute;
     left: 0;

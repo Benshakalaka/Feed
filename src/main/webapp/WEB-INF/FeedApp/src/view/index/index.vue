@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<style lang="scss" rel="stylesheet/scss">
+<style type="text/scss" lang="scss">
   .index-page {
     width: 100%;
     height: 100%;

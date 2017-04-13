@@ -4,7 +4,7 @@ import Vue from 'vue'
 const state = {
   // 最大步骤数
   // 第一步: 描点
-  MAX_STEP: 4,
+  MAX_STEP: 2,
   // 进度颜色
   STEP_COLOR: ['#47EBEB', '#FFEB3B', '#47EB47', '#EB4747'],
   // 当前进度
@@ -17,10 +17,14 @@ const state = {
   width: 0,
   // 几个片区
   count: 0,
+  // 浏览器滚动条宽度
+  scrollBarWidth: 0,
   // 第一步, 当前在划分的片区
   oneCurrentAreaIndex: -1,
   // 第一步, 当前在划分的片区的第几个坐标
   oneCurrentDataDisplayFocusIndex: -1,
+  // 第二步, 当前在切割的片区
+  twoCurrentAreaIndex: -1,
   // 最终数据集合
   areasInfo: null
 }
@@ -33,10 +37,12 @@ const getters = {
   bgUrl: state => state.bgUrl,
   width: state => state.width,
   count: state => state.count,
+  scrollBarWidth: state => state.scrollBarWidth,
   oneCurrentAreaIndex: state => state.oneCurrentAreaIndex,
   oneCurrentDataDisplayFocusIndex: state => state.oneCurrentDataDisplayFocusIndex,
   areasInfo: state => state.areasInfo,
-  dataDisplayOne: state => (state.areasInfo && state.areasInfo[state.oneCurrentAreaIndex] ? state.areasInfo[state.oneCurrentAreaIndex].area_coords : [])
+  dataDisplayOne: state => (state.areasInfo && state.areasInfo[state.oneCurrentAreaIndex] ? state.areasInfo[state.oneCurrentAreaIndex].area_coords : []),
+  twoCurrentAreaIndex: state => state.twoCurrentAreaIndex
 }
 
 const mutations = {
@@ -63,7 +69,6 @@ const mutations = {
     }
   },
   [types.SET_IMAGE_URL] (state, { imgUrl }) {
-    console.log('what????????????')
     state.imgUrl = imgUrl
   },
   [types.SET_BACKGROUND_URL] (state, { bgUrl }) {
@@ -75,8 +80,20 @@ const mutations = {
   [types.SET_AREA_COUNT] (state, { count }) {
     state.count = count
   },
+  [types.SET_SCROLL_WIDTH] (state, { scrollBarWidth }) {
+    state.scrollBarWidth = scrollBarWidth
+  },
   [types.ONE_SET_CURRENT_AREA_INDEX] (state, { index }) {
     state.oneCurrentAreaIndex = index
+  },
+  [types.ONE_CANCEL_CURRENT_AREA_INDEX] () {
+    state.oneCurrentAreaIndex = -1
+  },
+  [types.NAV_PREV_GO] (state) {
+    state.step = Math.max(1, state.step - 1)
+  },
+  [types.NAV_NEXT_GO] (state) {
+    state.step = Math.min(state.MAX_STEP, state.step + 1)
   },
   // 步骤一: 为某个片区添加坐标
   [types.ONE_ADD_OR_UPDATE_CURRENT_AREA_COORDS] (state, { coord }) {
@@ -102,6 +119,12 @@ const mutations = {
   },
   [types.ONE_CANCEL_CURRENT_AREA_COORD_FPCUS_INDEX] (state) {
     state.oneCurrentDataDisplayFocusIndex = -1
+  },
+  [types.TWO_SET_CURRENT_AREA_INDEX] (state, { index }) {
+    state.twoCurrentAreaIndex = index
+  },
+  [types.TWO_CANCEL_CURRENT_AREA_INDEX] () {
+    state.twoCurrentAreaIndex = -1
   }
 }
 

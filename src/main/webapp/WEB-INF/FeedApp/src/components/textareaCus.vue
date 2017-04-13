@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<style lang="scss" rel="stylesheet/scss">
+<style type="text/scss" lang="scss">
   .textarea-section {
     width: 100%;
     background-color: #fff;

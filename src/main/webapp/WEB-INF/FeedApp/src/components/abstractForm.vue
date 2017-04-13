@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<style lang="scss" rel="stylesheet/scss">
+<style type="text/scss" lang="scss">
   .form-section {
     height: 100%;
     width: 100%;

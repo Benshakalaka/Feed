@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<style lang="scss" rel="stylesheet/scss">
+<style type="text/scss" lang="scss">
   .custom-button-wrapper {
     margin-top: 12px;
     width: 100%;

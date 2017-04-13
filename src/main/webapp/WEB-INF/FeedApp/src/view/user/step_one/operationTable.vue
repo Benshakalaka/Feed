@@ -7,37 +7,42 @@
                 :errorText="imgError"
                 @change="imgChange"
                 @focus="imgDisplayUrl = (imgUrl || imgDisplayUrl)"
+                :originValue="imgUrl"
         ></label-input>
         <label-input
                 labelText="填写图片背景名称"
                 :errorText="bgError"
                 @change="bgChange"
                 @focus="imgDisplayUrl = (bgUrl || imgDisplayUrl)"
+                :originValue="bgUrl"
         ></label-input>
         <label-input
                 labelText="设定片区数量"
                 :errorText="countError"
                 @change="countChange"
+                :originValue="count"
         ></label-input>
         <label-input
                 labelText="设定图片宽度"
                 :errorText="widthError"
                 @change="widthChange"
+                :originValue="width"
         ></label-input>
       </div>
     </div><!--
             --><div class="right-part">
-        <div class="pick-section">
-        <img class="img-container" :src="imgDisplayUrl" width="100%" v-if="imgDisplayUrl">
-      </div>
-  </div>
+          <div class="pick-section">
+          <img class="img-container" :src="imgDisplayUrl" width="90%" v-if="imgDisplayUrl">
+        </div>
+    </div>
   </div>
 </template>
 
-<style lang="scss" rel="stylesheet/scss">
+<style type="text/scss" lang="scss">
   .step-one {
     .left-part, .right-part {
-      display: inline-block;
+      // display: inline-block;
+      float: left;
       width: 50%;
       height: 100%;
     }
@@ -45,7 +50,7 @@
     .left-part {
       box-sizing: border-box;
       border-right: 1px solid #ccc;
-      vertical-align: top;
+      // vertical-align: top;
     }
 
     .data-section {

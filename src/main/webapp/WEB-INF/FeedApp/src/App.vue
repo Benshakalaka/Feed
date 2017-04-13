@@ -6,13 +6,21 @@
 
 <script>
   import 'normalize.css'
+  import Vue from 'vue'
+  import * as filters from './common/filter'
+
+  Object.keys(filters).map(item => {
+    Vue.filter(item, filters[item])
+  })
 
   export default {
     name: 'app'
   }
 </script>
 
-<style lang="scss" rel="stylesheet/scss">
+<style type="text/scss" lang="scss">
+  @import "./common/styles/common";
+
   html, body {
     width: 100%;
     height: 100%;
@@ -26,6 +34,6 @@
     top: 0;
     bottom: 0;
     // background: url(../static/img/background.png) repeat 0 0;
-    background-color: darken(#f5f8fa, 12%);
+    background-color: darken(#f5f8fa, 13%);
   }
 </style>

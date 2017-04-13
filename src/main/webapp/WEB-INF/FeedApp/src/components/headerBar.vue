@@ -54,7 +54,7 @@
   </div>
 </template>
 
-<style lang="scss" rel="stylesheet/scss">
+<style type="text/scss" lang="scss">
   @import "../common/styles/variables";
 
   .header-nav-bar {
