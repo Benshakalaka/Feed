@@ -2,7 +2,7 @@
   <div class="step step-two">
     <div class="top-list">
       <div class="nav-wrapper">
-        <ul :style="{width: 'calc(100% + ' + scrollBarWidth + 'px'}" @mouseWheel="topNavMouseWheel">
+        <ul :style="{width: 'calc(100% + ' + scrollBarWidth + 'px'}" @scroll="topNavScroll">
           <li v-for="n in Number(count)"
               @click="dataIndexData"
               :class="{active: twoCurrentAreaIndex === (n - 1)}"
@@ -13,7 +13,60 @@
         </ul>
       </div>
     </div>
-    <div class="right-data"></div>
+    <div class="bottom-data">
+      <div class="left-coords">
+        <div class="data-item">
+          <el-input
+            icon="close">
+            <template slot="prepend">LT</template>
+          </el-input>
+        </div>
+        <div class="data-item">
+          <el-input
+            icon="close">
+            <template slot="prepend">RT</template>
+          </el-input>
+        </div>
+        <div class="data-item">
+          <el-input
+            icon="close">
+            <template slot="prepend">LB</template>
+          </el-input>
+        </div>
+        <div class="data-item">
+          <el-input
+            icon="close">
+            <template slot="prepend">RB</template>
+          </el-input>
+        </div>
+      </div>
+      <div class="right-attr">
+        <div class="data-item">
+          <el-input
+            icon="close">
+            <template slot="prepend">Height</template>
+          </el-input>
+        </div>
+        <div class="data-item">
+          <el-input
+            icon="close">
+            <template slot="prepend">Width</template>
+          </el-input>
+        </div>
+        <div class="data-item">
+          <el-input
+            icon="close">
+            <template slot="prepend">Pos_X</template>
+          </el-input>
+        </div>
+        <div class="data-item">
+          <el-input
+            icon="close">
+            <template slot="prepend">Pos_Y</template>
+          </el-input>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -33,9 +86,10 @@
         ul {
           list-style: none;
           margin: 0;
-          padding: 0;
+          padding: 0 0 3px 0;
           height: $top-index-li-height;
           overflow-y: scroll;
+          border-bottom: 2px solid lighten(#000, 85%);
 
           li {
             display: block;
@@ -43,8 +97,53 @@
             height: $top-index-li-height;
             line-height: $top-index-li-height;
             text-align: center;
+            box-sizing: border-box;
+
+            &:not(:nth-child(6n)) {
+              border-right: 1px solid lighten(#000, 85%);
+            }
+
+            &.active {
+
+            }
           }
         }
+      }
+    }
+
+    .bottom-data {
+      height: calc(100% - #{$top-index-li-height});
+      width: 100%;
+      box-sizing: border-box;
+      padding: 45px 50px 45px 30px;
+
+      .data-item {
+        width: 50%;
+        box-sizing: border-box;
+        padding: 0 30px;
+
+        display: flex;
+        align-items: center;
+      }
+
+      .left-coords {
+        width: 50%;
+        height: 100%;
+        float: left;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        border-right: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+
+      .right-attr {
+        width: 50%;
+        height: 100%;
+        float: left;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
       }
     }
   }
@@ -53,6 +152,10 @@
 <script type="text/ecmascript-6">
   import { mapGetters, mapMutations } from 'vuex'
   import * as types from '../../../store/mutation-types'
+  import Vue from 'vue'
+  import { Input } from 'element-ui'
+
+  Vue.use(Input)
 
   export default {
     data () {
@@ -75,7 +178,7 @@
       dataIndexData (event) {
         const li = event.target
         const index = Array.prototype.indexOf.call(li.parentElement.children, li)
-        if (index === this.oneCurrentAreaIndex) {
+        if (index === this.twoCurrentAreaIndex) {
           li.classList.remove('active')
           this.cancel_current_area_index()
         } else {
@@ -88,9 +191,22 @@
           })
         }
       },
-      topNavMouseWheel (event) {
-        console.log(event)
-      }
+      topNavScroll: (function () {
+        let scrollTimer = null
+        let scrollPrev = 0
+        return function (event) {
+          const direction = event.target.scrollTop > scrollPrev
+          if (!scrollTimer) {
+            direction && (event.target.scrollTop += 50)
+            direction || (event.target.scrollTop -= 50)
+            scrollPrev = event.target.scrollTop
+            scrollTimer = setTimeout(function () {
+              scrollTimer = null
+            }, 300)
+          }
+          return false
+        }
+      })()
     }
   }
 </script>
