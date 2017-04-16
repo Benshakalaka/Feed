@@ -5,3 +5,18 @@
   height: 50px;
   overflow: scroll;
 }
+
+@keyframes one-flash-item {
+  0% {
+    transform: scale(1);
+    opacity: .8;
+  }
+  50% {
+    transform: scale(3);
+    opacity: .4;
+  }
+  100% {
+    transform: scale(6);
+    opacity: 0;
+  }
+}

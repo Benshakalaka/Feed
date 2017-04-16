@@ -1,8 +1,6 @@
 <template>
   <div class="display-img display-one" :style="{width: `${width}px`}" v-if="!!width" ref="imgWrapper">
     <ul class="points-container">
-      <!--<li class="points-item" v-for="coord in dataDisplayOne"></li>-->
-      <!--<li class="points-item" v-for="coord in dataDisplayOne" :style="{left: coord.left - 4 + 'px', top: coord.top - 4 + 'px'}">-->
       <li class="points-item" v-for="(coord, index) in dataDisplayOne" :style="{
           'left': coord.left - 4 + 'px',
           'top': coord.top - 4 + 'px'
@@ -74,21 +72,6 @@
       }
     }
   }
-
-  @keyframes one-flash-item {
-    0% {
-      transform: scale(1);
-      opacity: .8;
-    }
-    50% {
-      transform: scale(3);
-      opacity: .4;
-    }
-    100% {
-      transform: scale(6);
-      opacity: 0;
-    }
-  }
 </style>
 
 <script type="text/ecmascript-6">
@@ -103,7 +86,6 @@
     name: 'one-bottom-img',
     data () {
       return {
-        wrapperEle: null,
         pointObviousLevel: 2
       }
     },
@@ -112,11 +94,9 @@
         'add_or_update_current_area_coord': types.ONE_ADD_OR_UPDATE_CURRENT_AREA_COORDS
       }),
       imgClickOne (event) {
-        const coord = {
-          left: Number(event.pageX) + Number(this.wrapperEle.scrollLeft) - this.$refs.imgWrapper.offsetLeft,
-          top: Number(event.pageY) + Number(this.wrapperEle.scrollTop) - this.$refs.imgWrapper.offsetTop
-        }
-        this.add_or_update_current_area_coord({coord})
+        this.add_or_update_current_area_coord({
+          coord: this.getRelativeMousePosi(event, this.$refs.imgWrapper)
+        })
       }
     },
     computed: {
@@ -124,11 +104,9 @@
         'width',
         'imgUrl',
         'dataDisplayOne',
-        'oneCurrentDataDisplayFocusIndex'
+        'oneCurrentDataDisplayFocusIndex',
+        'getRelativeMousePosi'
       ])
-    },
-    mounted () {
-      this.wrapperEle = document.getElementById('spliter-main')
     }
   }
 </script>

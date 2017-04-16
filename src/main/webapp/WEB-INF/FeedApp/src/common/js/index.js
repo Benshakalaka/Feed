@@ -19,3 +19,10 @@ export const getScrollbarWidth = () => { // thx d.walsh
   document.body.removeChild(scrollDiv)
   return scrollbarWidth
 }
+
+export const getRelativeMousePosi = (event, relativeEle, wrapperEle) => {
+  return {
+    left: Number(event.pageX) + Number(wrapperEle.scrollLeft) - relativeEle.offsetLeft,
+    top: Number(event.pageY) + Number(wrapperEle.scrollTop) - relativeEle.offsetTop
+  }
+}

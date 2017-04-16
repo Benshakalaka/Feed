@@ -1,5 +1,5 @@
 <template>
-  <div class="display-data data-one" v-if="count > 0" key="one-d">
+  <div class="display-data data-one">
     <div class="left-index">
       <ul>
         <li v-for="n in Number(count)" @click="dataIndexData" :class="{active: oneCurrentAreaIndex === (n - 1)}">{{ `片区${n}` }}</li>
@@ -70,7 +70,7 @@
       width: calc(100% - #{$left-index-width});
       float: left;
       box-sizing: border-box;
-      padding: 10px 15px;
+      padding: 0 15px;
       overflow: auto;
 
       ul {
@@ -87,7 +87,7 @@
           width: 140px;
           height: 36px;
           float: left;
-          margin: 5px 15px;
+          margin: 10px 20px;
         }
       }
     }
@@ -173,11 +173,22 @@
         }, 150)
       },
       displayDataInputChangeOne (value) {
+        if (!/^\d+,\s?\d+$/.test(value)) {
+          return
+        }
+
         this.add_or_update_current_area_coord({
           coord: {
-            left: value.split(',')[0],
-            top: value.split(',')[1]
+            left: Number(value.split(',')[0]),
+            top: Number(value.split(',')[1])
           }
+        })
+      }
+    },
+    mounted () {
+      if (this.count > 0) {
+        Vue.nextTick(() => {
+          this.$refs.dataDisplayOne.style.height = Math.min(this.count, this.MAX_SHOW_LINES) * this.EACH_LINE_HEIGHT + 'px'
         })
       }
     }

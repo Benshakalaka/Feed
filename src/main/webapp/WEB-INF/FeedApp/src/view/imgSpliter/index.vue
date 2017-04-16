@@ -18,12 +18,16 @@
           }"
         ></li>
       </ul>
-      <transition name="display-fade">
-        <component :is="middleComponent"></component>
-      </transition>
-      <transition name="display-fade">
-        <component :is="bottomComponent"></component>
-      </transition>
+      <div class="second-part">
+        <transition name="display-fade">
+          <component :is="middleComponent"></component>
+        </transition>
+      </div>
+      <div class="third-part">
+        <transition name="display-fade">
+          <component :is="bottomComponent"></component>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -116,7 +120,7 @@
   .right-split-fade-enter-active, .right-split-fade-leave-active,
   .left-split-fade-enter-active, .left-split-fade-leave-active,
   .display-fade-enter-active, .display-fade-leave-active {
-    transition: transform .8s ease-in, opacity .8s ease-in;
+    transition: transform .7s ease-in, opacity .7s ease-in;
   }
 
   .right-split-fade-enter, .left-split-fade-leave-active {
@@ -139,16 +143,30 @@
     float: left;
   }
 
-  .display-img {
-    overflow: auto;
+  .second-part {
+    .display-data {
+      width: 100%;
+      background-color: #fff;
+      margin: 20px 0;
+      border-radius: 5px;
+      overflow: auto;
+      float: left;
+
+      &:nth-child(2) {
+        margin-left: -$content-width;
+      }
+    }
   }
 
-  .display-data {
-    width: 100%;
-    background-color: #fff;
-    margin: 20px 0;
-    border-radius: 5px;
-    overflow: auto;
+  .third-part {
+    .display-img {
+      overflow: auto;
+      font-size: 0;
+
+      &:nth-child(2) {
+        margin-left: -$content-width;
+      }
+    }
   }
 </style>
 
@@ -206,7 +224,8 @@
       ...mapMutations({
         'nav_prev_go': types.NAV_PREV_GO,
         'nav_next_go': types.NAV_NEXT_GO,
-        'set_scroll_width': types.SET_SCROLL_WIDTH
+        'set_scroll_width': types.SET_SCROLL_WIDTH,
+        'set_relative_mouse_posi_get_func': types.SET_RELATIVE_MOUSE_POSI_FUNC
       }),
       prevNavGo () {
         this.nav_prev_go()
@@ -218,6 +237,9 @@
     mounted () {
       this.set_scroll_width({
         scrollBarWidth: getScrollbarWidth()
+      })
+      this.set_relative_mouse_posi_get_func({
+        wrapperEle: document.getElementById('spliter-main')
       })
     }
   }

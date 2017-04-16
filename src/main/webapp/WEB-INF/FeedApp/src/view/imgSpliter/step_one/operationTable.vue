@@ -1,5 +1,5 @@
 <template>
-  <div class="step step-one" key="one">
+  <div class="step step-one">
     <div class="left-part">
       <div class="data-section">
         <label-input

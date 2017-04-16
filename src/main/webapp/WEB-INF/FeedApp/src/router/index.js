@@ -6,8 +6,8 @@ import SignUp from '../view/login/sign_up.vue'
 import IndexPage from '../view/index/index.vue'
 import MainContent from '../view/index/main_content.vue'
 import UserPage from '../view/user/index.vue'
-import DicoverPage from '../view/discover/index.vue'
-import ImageSplit from '../view/user/image_split.vue'
+// import DicoverPage from '../view/discover/index.vue'
+import ImageSplit from '../view/imgSpliter/index.vue'
 
 Vue.use(Router)
 
@@ -53,8 +53,8 @@ export default new Router({
         },
         {
           path: 'discover',
-          name: 'discover',
-          component: DicoverPage
+          name: 'discover'
+          // component: DicoverPage
         }
       ]
     },
