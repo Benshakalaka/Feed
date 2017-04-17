@@ -30,6 +30,8 @@ const state = {
   twoCurrentAreaIndex: -1,
   // 第二步, 当前要修改的坐标, 0或3
   twoCurrentDirection: -1,
+  // 第三部, 当前选中的片区
+  threeCurrentAreaIndex: -1,
   // 最终数据集合
   areasInfo: null
 }
@@ -52,7 +54,51 @@ const getters = {
   dataDisplayTwo: state => (state.areasInfo && state.areasInfo[state.twoCurrentAreaIndex] ? state.areasInfo[state.twoCurrentAreaIndex].area_active : []),
   twoCurrentDirection: state => state.twoCurrentDirection,
   // 根据第二步的片区索引获取第一步得到的数据
-  dataDisplayOneInTwo: state => (state.areasInfo && state.areasInfo[state.twoCurrentAreaIndex] ? state.areasInfo[state.twoCurrentAreaIndex].area_coords : [])
+  dataDisplayOneInTwo: state => (state.areasInfo && state.areasInfo[state.twoCurrentAreaIndex] ? state.areasInfo[state.twoCurrentAreaIndex].area_coords : []),
+  threeCurrentAreaIndex: state => state.threeCurrentAreaIndex,
+  // dataDisplayOneInThree: state => (state.areasInfo && state.areasInfo[state.threeCurrentAreaIndex] ? state.areasInfo[state.threeCurrentAreaIndex].area_coords : []),
+  // dataDisplayTwoInThree: state => (state.areasInfo && state.areasInfo[state.threeCurrentAreaIndex] ? state.areasInfo[state.threeCurrentAreaIndex].area_active : []),
+  dataDisplayThree: state => (state.areasInfo && state.areasInfo[state.threeCurrentAreaIndex] ? state.areasInfo[state.threeCurrentAreaIndex].area_item : null),
+  dataDisplayInThree: state => {
+    if (!state.areasInfo || !state.areasInfo[state.threeCurrentAreaIndex] || state.threeCurrentAreaIndex === -1) {
+      return null
+    }
+    // 第一步数据
+    const one = state.areasInfo[state.threeCurrentAreaIndex].area_coords
+    let dataOne = ''
+    if (one.length) {
+      dataOne = one.reduce((res, item) => {
+        return res + ',' + item.left + ',' + item.top
+      }, '').slice(1)
+    }
+    // 第二步数据
+    const two = state.areasInfo[state.threeCurrentAreaIndex].area_active
+    let dataTwo = ''
+    if (one.length && two.length) {
+      const left = one.reduce((min, compare) => {
+        return {left: Math.min(min.left, compare.left)}
+      }).left
+      const top = one.reduce((min, compare) => {
+        return {top: Math.min(min.top, compare.top)}
+      }).top
+      const width = two[3].x - two[0].x
+      const height = two[3].y - two[0].y
+      const posx = two[0].x
+      const posy = two[0].y
+      dataTwo = [left, top, width, height, posx, posy].join(',')
+    }
+    // 第三部数据
+    const three = state.areasInfo[state.threeCurrentAreaIndex].area_item
+    let dataThree = ''
+    if (three) {
+      dataThree = three.left + ',' + three.top
+    }
+    return {
+      dataOne,
+      dataTwo,
+      dataThree
+    }
+  }
 }
 
 const mutations = {
@@ -66,7 +112,7 @@ const mutations = {
           // 第一步获取分拨中心哥哥片区坐标
           area_coords: [],
           // 第四步获取显示信息定位
-          area_item: [],
+          area_item: null,
           // 第二步获取背景图片每个片区四个角坐标, 顺序是左上, 右上, 左下, 右下
           // [{left: ?, top: ?}, {left: ?, top: ?}, {left: ?, top: ?}, {left: ?, top: ?}]
           // 第三步获取图片相对于主图定位
@@ -77,7 +123,7 @@ const mutations = {
       state.areasInfo = Array.from({length: count}).map(() => {
         return {
           area_coords: [],
-          area_item: [],
+          area_item: null,
           area_active: null
         }
       })
@@ -181,6 +227,12 @@ const mutations = {
   },
   [types.TWO_CANCEL_CHANGE_CURRENT_DIRECTION] (state) {
     state.twoCurrentDirection = -1
+  },
+  [types.THREE_SET_CURRENT_AREA_INDEX] (state, {index}) {
+    state.threeCurrentAreaIndex = index
+  },
+  [types.THREE_CANCEL_CURRENT_AREA_INDEX] (state) {
+    state.threeCurrentAreaIndex = -1
   }
 }
 

@@ -7,14 +7,18 @@
       >
         <li class="area-item"
             :style="areaItemStyle"
-            v-for="index in (count < 6 ? Number(count) : (Math.floor(count / 5) * 5))">
+            v-for="index in (count < 6 ? Number(count) : (Math.floor(count / 5) * 5))"
+            :class="{active: (threeCurrentAreaIndex + 1) === index}"
+            @click="areaChooseThree(index)">
           {{ '片区' + index }}
       </li>
       </ul>
       <ul class="area-left-container">
         <li class="area-left-item"
             :style="areaLeftItemStyle"
-            v-for="index in (count % maxColumns)">
+            v-for="index in (count % maxColumns)"
+            :class="{active: (threeCurrentAreaIndex + 1) === Number(Math.floor(count / maxColumns) * maxColumns + index)}"
+            @click="areaChooseThree(Number(Math.floor(count / maxColumns) * maxColumns + index))">
           {{ '片区' + Number(Math.floor(count / maxColumns) * maxColumns + index) }}
       </li>
       </ul>
@@ -45,6 +49,10 @@
         float: left;
         box-sizing: border-box;
         display: block;
+
+        &.active {
+          background-color: #f00;
+        }
 
         &:not(:last-child) {
           border-right: 1px solid #ccc;
@@ -88,7 +96,8 @@
     computed: {
       ...mapGetters([
         'count',
-        'scrollBarWidth'
+        'scrollBarWidth',
+        'threeCurrentAreaIndex'
       ]),
       areaContainerClass () {
         return {
@@ -114,6 +123,19 @@
           height,
           width: this.areaContainerWidth / (this.count % this.maxColumns) + 'px',
           'line-height': height
+        }
+      }
+    },
+    methods: {
+      ...mapMutations({
+        'set_current_area_index': types.THREE_SET_CURRENT_AREA_INDEX,
+        'cancel_current_area_Index': types.THREE_CANCEL_CURRENT_AREA_INDEX
+      }),
+      areaChooseThree (index) {
+        if (this.threeCurrentAreaIndex === (index - 1)) {
+          this.cancel_current_area_Index()
+        } else {
+          this.set_current_area_index({index: index - 1})
         }
       }
     }
