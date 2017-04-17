@@ -55,7 +55,7 @@
     .operation-part {
       position: relative;
       box-sizing: border-box;
-      padding: 10px 60px;
+      padding: 0 60px;
       width: 100%;
       height: $operation-height;
       background-color: #fff;
@@ -73,7 +73,7 @@
         text-align: center;
         opacity: .4;
         display: inline-block;
-        margin-top: -10px;
+        margin-top: 0;
         cursor: pointer;
         transition: opacity .3s ease-in;
         color: darken(#ccc, 30%);
@@ -98,7 +98,7 @@
       // transition组件切换时两个组件同时存在, 会导致一个被换行, 这里使第二个组件强行与第一个在同一行
       // 使得动画效果更贴切
       > div:nth-of-type(2) {
-        margin-top: -330px;
+        margin-top: -350px;
       }
     }
 
@@ -112,7 +112,7 @@
       .operation-step-hint {
         height: 100%;
         float: left;
-        transition: width .8s ease-in;
+        transition: width .5s ease-in;
       }
     }
   }
@@ -120,7 +120,7 @@
   .right-split-fade-enter-active, .right-split-fade-leave-active,
   .left-split-fade-enter-active, .left-split-fade-leave-active,
   .display-fade-enter-active, .display-fade-leave-active {
-    transition: transform .7s ease-in, opacity .7s ease-in;
+    transition: transform .5s ease-in, opacity .7s ease-in;
   }
 
   .right-split-fade-enter, .left-split-fade-leave-active {
@@ -141,6 +141,8 @@
     height: 100%;
     width: 100%;
     float: left;
+    padding: 10px 0;
+    box-sizing: border-box;
   }
 
   .second-part {
@@ -183,6 +185,10 @@
   import TwoMiddleComp from './step_two/dataDisplay.vue'
   import TwoBottomComp from './step_two/imgDisplay.vue'
 
+  import ThreeTopComp from './step_three/operationTable.vue'
+  import ThreeMiddleComp from './step_three/dataDisplay.vue'
+  import ThreeBottomComp from './step_three/imgDisplay.vue'
+
   export default {
     name: 'image-split',
     data () {
@@ -218,7 +224,10 @@
       'one-bottom-comp': OneBottomComp,
       'two-top-comp': TwoTopComp,
       'two-middle-comp': TwoMiddleComp,
-      'two-bottom-comp': TwoBottomComp
+      'two-bottom-comp': TwoBottomComp,
+      'three-top-comp': ThreeTopComp,
+      'three-middle-comp': ThreeMiddleComp,
+      'three-bottom-comp': ThreeBottomComp
     },
     methods: {
       ...mapMutations({

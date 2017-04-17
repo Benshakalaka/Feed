@@ -5,7 +5,9 @@
        @mouseleave="imgLeaveTwo"
        @mousemove="imgMoveTwo"
        @mousedown="imgClickTwo">
-    <div class="posi-item left-top-posi" :style="leftItem"></div>
+    <div class="posi-item left-top-posi" :style="leftItem">
+      {{ `${leftItem.width},${leftItem.height}` }}
+    </div>
     <div class="posi-item right-bottom-posi" :style="rightItem"></div>
     <img class="img-display-container"
          :src="bgUrl"
@@ -38,6 +40,7 @@
     .left-top-posi {
       top: 0;
       left: 0;
+      font-size: 14px;
     }
 
     .right-bottom-posi {

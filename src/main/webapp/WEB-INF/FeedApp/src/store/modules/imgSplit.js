@@ -5,7 +5,7 @@ import Vue from 'vue'
 const state = {
   // 最大步骤数
   // 第一步: 描点
-  MAX_STEP: 2,
+  MAX_STEP: 3,
   // 进度颜色
   STEP_COLOR: ['#47EBEB', '#FFEB3B', '#47EB47', '#EB4747'],
   // 当前进度
