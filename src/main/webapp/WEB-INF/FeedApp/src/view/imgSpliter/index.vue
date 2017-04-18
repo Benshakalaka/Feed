@@ -146,6 +146,8 @@
   }
 
   .second-part {
+    overflow: auto;
+
     .display-data {
       width: 100%;
       background-color: #fff;
@@ -162,7 +164,6 @@
 
   .third-part {
     .display-img {
-      overflow: auto;
       font-size: 0;
 
       &:nth-child(2) {
