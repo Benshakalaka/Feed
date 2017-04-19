@@ -112,7 +112,7 @@ const mutations = {
           // 第一步获取分拨中心哥哥片区坐标
           area_coords: [],
           // 第四步获取显示信息定位
-          area_item: null,
+          area_item: {left: 0, top: 0},
           // 第二步获取背景图片每个片区四个角坐标, 顺序是左上, 右上, 左下, 右下
           // [{left: ?, top: ?}, {left: ?, top: ?}, {left: ?, top: ?}, {left: ?, top: ?}]
           // 第三步获取图片相对于主图定位
@@ -123,7 +123,7 @@ const mutations = {
       state.areasInfo = Array.from({length: count}).map(() => {
         return {
           area_coords: [],
-          area_item: null,
+          area_item: {left: 0, top: 0},
           area_active: null
         }
       })
@@ -233,6 +233,14 @@ const mutations = {
   },
   [types.THREE_CANCEL_CURRENT_AREA_INDEX] (state) {
     state.threeCurrentAreaIndex = -1
+  },
+  [types.THREE_SET_AREA_ITEM] (state, {left, top}) {
+    if (state.threeCurrentAreaIndex > -1 && state.areasInfo[state.threeCurrentAreaIndex]) {
+      state.areasInfo[state.threeCurrentAreaIndex].area_item = {
+        left,
+        top
+      }
+    }
   }
 }
 

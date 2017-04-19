@@ -1,13 +1,7 @@
 <template>
-  <div class="display-img display-three">
+  <div class="display-img display-three" @click="imgClickHandler">
     <div class="img-container" :style="{width:width+'px'}">
       <img :src="imgUrl" alt="" usemap="#Map" width="100%">
-      <ul class="area-items-wrapper area-points-container" ref="areaPointsWrapper">
-        <li class="area-point"
-            v-for="area in areasInfo"
-            :style="getAreaPoints(area)"
-          ></li>
-      </ul>
       <ul class="area-items-wrapper area-active-container" ref="areaActiveWrapper">
         <li class="active-item"
             v-for="area in areasInfo"
@@ -19,15 +13,20 @@
         <area shape="poly"
           v-for="(area, index) in areasInfo"
           :coords="getAreaCoords(area)"
-          @click="areaClickHandler(index - 1)"
+          @click="areaClickHandler(index)"
+          @mouseenter="areaMouseenterHandler(index)"
+          @mouseleave="areaMouseleaveHandler(index)"
           href="javascript:;">
       </map>
+      <div class="area-pointer" v-show="threeCurrentAreaIndex > -1" :style="position"></div>
     </div>
   </div>
 </template>
 
 <style type="text/scss" lang="scss">
   .display-three {
+    background-color: #373e4c;;
+
     .img-container {
       position: relative;
     }
@@ -35,6 +34,12 @@
     img {
       position: relative;
       z-index: 9;
+    }
+
+    map {
+      area {
+        cursor: default;
+      }
     }
 
     .area-items-wrapper {
@@ -49,6 +54,13 @@
         display: none;
       }
     }
+
+    .area-pointer {
+      height: 36px;
+      width: 35px;
+      background: url("../../../../static/img/position.png") no-repeat center;
+      position: absolute;
+    }
   }
 </style>
 
@@ -59,6 +71,10 @@
   export default {
     data () {
       return {
+        position: {
+          left: 0,
+          top: 0
+        }
       }
     },
     computed: {
@@ -66,11 +82,14 @@
         'bgUrl',
         'imgUrl',
         'width',
-        'areasInfo'
+        'areasInfo',
+        'getRelativeMousePosi',
+        'threeCurrentAreaIndex'
       ])
     },
     methods: {
       ...mapMutations({
+        'set_area_item': types.THREE_SET_AREA_ITEM
       }),
       getAreaCoords (area) {
         let dataOne = ''
@@ -111,7 +130,25 @@
         return {}
       },
       areaClickHandler (index) {
-        console.log(index)
+      },
+      areaMouseenterHandler (index) {
+        const areaActiveWrapper = this.$refs.areaActiveWrapper
+        areaActiveWrapper.querySelector(`li:nth-child(${index + 1})`).style.display = 'block'
+      },
+      areaMouseleaveHandler (index) {
+        const areaActiveWrapper = this.$refs.areaActiveWrapper
+        areaActiveWrapper.querySelector(`li:nth-child(${index + 1})`).style.display = 'none'
+      },
+      imgClickHandler (event) {
+        if (this.threeCurrentAreaIndex > -1) {
+          const coord = this.getRelativeMousePosi(event, event.currentTarget)
+          this.position.left = coord.left + 'px'
+          this.position.top = coord.top + 'px'
+          this.set_area_item({
+            left: coord.left,
+            top: coord.top
+          })
+        }
       }
     }
   }
