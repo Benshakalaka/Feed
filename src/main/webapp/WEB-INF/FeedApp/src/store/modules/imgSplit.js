@@ -16,6 +16,8 @@ const state = {
   bgUrl: '',
   // 图片宽度
   width: 0,
+  // 背景图片宽度
+  bgWidth: 0,
   // 几个片区
   count: 0,
   // 浏览器滚动条宽度
@@ -43,6 +45,7 @@ const getters = {
   imgUrl: state => state.imgUrl,
   bgUrl: state => state.bgUrl,
   width: state => state.width,
+  bgWidth: state => state.bgWidth,
   count: state => state.count,
   scrollBarWidth: state => state.scrollBarWidth,
   oneCurrentAreaIndex: state => state.oneCurrentAreaIndex,
@@ -85,7 +88,7 @@ const getters = {
       const height = two[3].y - two[0].y
       const posx = two[0].x
       const posy = two[0].y
-      dataTwo = [left, top, width, height, posx, posy].join(',')
+      dataTwo = [left, top, width, height, '-' + posx, '-' + posy].join(',')
     }
     // 第三部数据
     const three = state.areasInfo[state.threeCurrentAreaIndex].area_item
@@ -137,6 +140,9 @@ const mutations = {
   },
   [types.SET_IMAGE_WIDTH] (state, { width }) {
     state.width = width
+  },
+  [types.SET_BACKGROUND_WIDTH] (state, {bgWidth}) {
+    state.bgWidth = bgWidth
   },
   [types.SET_AREA_COUNT] (state, { count }) {
     state.count = count

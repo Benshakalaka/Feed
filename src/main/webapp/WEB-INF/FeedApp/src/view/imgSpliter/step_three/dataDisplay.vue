@@ -4,9 +4,10 @@
       <h3>DATA</h3>
     </div>
     <div class="display-bottom">
-      <ul class="data-wrapper">
+      <ul class="data-wrapper" ref="dataWrapper">
         <li class="data-item" v-for="index in 3">
-          <el-input :readonly="true" :value="dataDisplayInThree && dataDisplayInThree[`data${showData[index - 1].data}`]">
+          <el-input :readonly="true"
+                    :value="dataDisplayInThree && dataDisplayInThree[`data${showData[index - 1].data}`]">
             <template slot="prepend">{{showData[index - 1].name}}</template>
             <el-button slot="append" icon="document" @click="dataClickHandler($event, index-1)"></el-button>
           </el-input>
@@ -42,6 +43,7 @@
         .data-item {
           display: block;
           width: 50%;
+          height: 36px;
           margin: 20px auto;
         }
       }
@@ -75,7 +77,9 @@
     },
     methods: {
       dataClickHandler (event, index) {
-        console.log(index)
+        const ele = this.$refs.dataWrapper.querySelector(`li:nth-child(${index + 1}) input`)
+        ele.select()
+        document.execCommand('copy', false)
       }
     }
   }

@@ -4,7 +4,10 @@
       <div class="operation-part">
         <a href="javascript:void(0);" class="left-nav" @click="prevNavGo"><i class="fa fa-angle-double-left fa-1x"></i></a>
         <a href="javascript:void(0);" class="right-nav" @click="nextNavGo"><i class="fa fa-angle-double-right fa-1x"></i></a>
-        <transition :name="operationTransitionName">
+        <transition
+          @before-enter="startTransitionHandler"
+          @after-leave="endTransitionHandler"
+          :name="operationTransitionName">
           <component :is="topComponent"></component>
         </transition>
       </div>
@@ -41,11 +44,6 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-
-    &::-webkit-scrollbar {/*滚动条整体样式*/
-      width: 0;     /*高宽分别对应横竖滚动条的尺寸*/
-      height: 0;
-    }
   }
 
   .spliter-wrapper {
@@ -235,13 +233,24 @@
         'nav_prev_go': types.NAV_PREV_GO,
         'nav_next_go': types.NAV_NEXT_GO,
         'set_scroll_width': types.SET_SCROLL_WIDTH,
-        'set_relative_mouse_posi_get_func': types.SET_RELATIVE_MOUSE_POSI_FUNC
+        'set_relative_mouse_posi_get_func': types.SET_RELATIVE_MOUSE_POSI_FUNC,
+        'change_loading_state': types.LOADING_STATE_CHANGE
       }),
       prevNavGo () {
         this.nav_prev_go()
       },
       nextNavGo () {
         this.nav_next_go()
+      },
+      startTransitionHandler () {
+        this.change_loading_state({
+          isLoading: true
+        })
+      },
+      endTransitionHandler () {
+        this.change_loading_state({
+          isLoading: false
+        })
       }
     },
     mounted () {

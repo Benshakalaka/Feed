@@ -3,30 +3,36 @@
     <div class="left-part">
       <div class="data-section">
         <label-input
-                labelText="分拨中心图片名称"
-                :errorText="imgError"
-                @change="imgChange"
-                @focus="imgDisplayUrl = (imgUrl || imgDisplayUrl)"
-                :originValue="imgUrl"
+          labelText="分拨中心图片名称"
+          :errorText="imgError"
+          @change="imgChange"
+          @focus="imgDisplayUrl = (imgUrl || imgDisplayUrl)"
+          :originValue="imgUrl"
         ></label-input>
         <label-input
-                labelText="填写图片背景名称"
-                :errorText="bgError"
-                @change="bgChange"
-                @focus="imgDisplayUrl = (bgUrl || imgDisplayUrl)"
-                :originValue="bgUrl"
+          labelText="填写图片背景名称"
+          :errorText="bgError"
+          @change="bgChange"
+          @focus="imgDisplayUrl = (bgUrl || imgDisplayUrl)"
+          :originValue="bgUrl"
         ></label-input>
         <label-input
-                labelText="设定片区数量"
-                :errorText="countError"
-                @change="countChange"
-                :originValue="count"
+          labelText="设定片区数量"
+          :errorText="countError"
+          @change="countChange"
+          :originValue="count"
         ></label-input>
         <label-input
-                labelText="设定图片宽度"
-                :errorText="widthError"
-                @change="widthChange"
-                :originValue="width"
+          labelText="设定图片宽度"
+          :errorText="widthError"
+          @change="widthChange"
+          :originValue="width"
+        ></label-input>
+        <label-input
+          labelText="设定背景宽度"
+          :errorText="bgWidthError"
+          @change="bgWidthChange"
+          :originValue="bgWidth"
         ></label-input>
       </div>
     </div><!--
@@ -96,6 +102,7 @@
         imgError: '',
         bgError: '',
         widthError: '',
+        bgWidthError: '',
         countError: ''
       }
     },
@@ -105,7 +112,8 @@
         'imgUrl',
         'bgUrl',
         'width',
-        'count'
+        'count',
+        'bgWidth'
       ])
     },
     methods: {
@@ -114,6 +122,7 @@
         'set_image_url': types.SET_IMAGE_URL,
         'set_background_url': types.SET_BACKGROUND_URL,
         'set_image_width': types.SET_IMAGE_WIDTH,
+        'set_background_width': types.SET_BACKGROUND_WIDTH,
         'set_area_count': types.SET_AREA_COUNT
       }),
       imgChange (event, value) {
@@ -132,6 +141,9 @@
         this.set_image_width({
           width
         })
+      },
+      bgWidthChange (event, bgWidth) {
+        this.set_background_width({bgWidth})
       },
       countChange (event, count) {
         this.set_area_count({

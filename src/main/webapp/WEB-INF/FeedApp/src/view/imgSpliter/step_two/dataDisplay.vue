@@ -107,13 +107,18 @@
     data () {
       return {
         // 比例, 当前展示的图片和原始(第一步选定的大小)比例的大小比
-        rate: 1
+        rate: 1,
+        bgRate: 1,
+        imgWidth: 0
       }
     },
     methods: {
       // 根据比例得到的大小
       onePoint (value) {
         return Number.prototype.toFixed.call(value * this.rate, 1)
+      },
+      bgOnePoint (value) {
+        return Number.prototype.toFixed.call(value * this.bgRate, 1)
       }
     },
     computed: {
@@ -121,6 +126,7 @@
         'imgUrl',
         'bgUrl',
         'width',
+        'bgWidth',
         'twoCurrentAreaIndex',
         'dataDisplayTwo',
         'dataDisplayOneInTwo'
@@ -128,11 +134,11 @@
       bgImgStyle () {
         if (this.twoCurrentAreaIndex > -1) {
           return {
-            height: this.onePoint(this.dataDisplayTwo[3].y - this.dataDisplayTwo[0].y) + 'px',
-            width: this.onePoint(this.dataDisplayTwo[3].x - this.dataDisplayTwo[0].x) + 'px',
+            height: this.bgOnePoint(this.dataDisplayTwo[3].y - this.dataDisplayTwo[0].y) + 'px',
+            width: this.bgOnePoint(this.dataDisplayTwo[3].x - this.dataDisplayTwo[0].x) + 'px',
             'background-image': `url(${this.bgUrl})`,
-            'background-position': `-${this.onePoint(this.dataDisplayTwo[0].x)}px -${this.onePoint(this.dataDisplayTwo[0].y)}px`,
-            'background-size': '484px'
+            'background-position': `-${this.bgOnePoint(this.dataDisplayTwo[0].x)}px -${this.bgOnePoint(this.dataDisplayTwo[0].y)}px`,
+            'background-size': this.imgWidth
           }
         }
       }
@@ -141,11 +147,14 @@
       const bgImgEle = this.$refs.bgImgEle
       const imgEle = this.$refs.imgEle
       Vue.nextTick(() => {
-        this.rate = Number.prototype.toFixed.call(imgEle.width / this.width, 3)
-        console.log(imgEle.width + ' / ' + this.width + ' : ' + this.rate)
-        bgImgEle.style.width = imgEle.width + 'px'
-        bgImgEle.style.height = imgEle.height + 'px'
-        console.dir(imgEle)
+        const styleSet = window.getComputedStyle(imgEle)
+        const width = styleSet.getPropertyValue('width')
+        const height = styleSet.getPropertyValue('height')
+        this.imgWidth = width
+        this.bgRate = Number.prototype.toFixed.call(Number(width.replace(/px/, '')) / this.bgWidth, 4)
+        this.rate = Number.prototype.toFixed.call(Number(width.replace(/px/, '')) / this.width, 4)
+        bgImgEle.style.width = width
+        bgImgEle.style.height = height
       })
     }
   }

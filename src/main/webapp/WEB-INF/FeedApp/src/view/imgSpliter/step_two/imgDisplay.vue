@@ -1,7 +1,7 @@
 <template>
   <div class="display-img display-two"
-       :style="{width: `${width}px`}"
-       v-if="!!width"
+       :style="{width: `${bgWidth}px`}"
+       v-if="!!bgWidth"
        @mouseleave="imgLeaveTwo"
        @mousemove="imgMoveTwo"
        @mousedown="imgClickTwo">
@@ -12,13 +12,13 @@
     <img class="img-display-container"
          :src="bgUrl"
          width="100%"
-         v-if="bgUrl"
          ref="bgImg"
     >
   </div>
 </template>
 
 <style type="text/scss" lang="scss">
+
   .display-two {
     position: relative;
 
@@ -64,7 +64,7 @@
     computed: {
       ...mapGetters([
         'bgUrl',
-        'width',
+        'bgWidth',
         'twoCurrentAreaIndex',
         'getRelativeMousePosi',
         'twoCurrentDirection',
@@ -97,7 +97,7 @@
 
           this.leftItem.width = coord.left + 'px'
           this.leftItem.height = coord.top + 'px'
-          this.rightItem.width = this.width - coord.left + 1 + 'px'
+          this.rightItem.width = this.bgWidth - coord.left + 1 + 'px'
           this.rightItem.height = height - coord.top + 1 + 'px'
         }
       },
@@ -110,7 +110,7 @@
     },
     mounted () {
       this.init_areas_active_data({
-        height: this.$refs.bgImg.height
+        height: window.getComputedStyle(this.$refs.bgImg).getPropertyValue('height')
       })
     }
   }

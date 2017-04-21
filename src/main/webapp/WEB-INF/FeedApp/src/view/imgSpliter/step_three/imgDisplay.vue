@@ -18,17 +18,17 @@
           @mouseleave="areaMouseleaveHandler(index)"
           href="javascript:;">
       </map>
-      <div class="area-pointer" v-show="threeCurrentAreaIndex > -1" :style="position"></div>
+      <div class="area-pointer" v-show="threeCurrentAreaIndex > -1" :style="pointPositionStyle"></div>
     </div>
   </div>
 </template>
 
 <style type="text/scss" lang="scss">
   .display-three {
-    background-color: #373e4c;;
 
     .img-container {
       position: relative;
+      background-color: #373e4c;
     }
 
     img {
@@ -71,10 +71,6 @@
   export default {
     data () {
       return {
-        position: {
-          left: 0,
-          top: 0
-        }
       }
     },
     computed: {
@@ -82,10 +78,25 @@
         'bgUrl',
         'imgUrl',
         'width',
+        'bgWidth',
         'areasInfo',
         'getRelativeMousePosi',
-        'threeCurrentAreaIndex'
-      ])
+        'threeCurrentAreaIndex',
+        'dataDisplayThree'
+      ]),
+      pointPositionStyle () {
+        if (this.threeCurrentAreaIndex > -1) {
+          return {
+            left: this.dataDisplayThree.left + 'px',
+            top: this.dataDisplayThree.top + 'px'
+          }
+        } else {
+          return {
+            left: 0,
+            top: 0
+          }
+        }
+      }
     },
     methods: {
       ...mapMutations({
@@ -99,7 +110,6 @@
             return res + ',' + item.left + ',' + item.top
           }, '').slice(1)
         }
-        console.log(dataOne)
         return dataOne
       },
       getAreaActive (area) {
@@ -124,7 +134,7 @@
             height,
             'background-position': `-${posx} -${posy}`,
             'background-image': `url(${this.bgUrl})`,
-            'background-size': this.width + 'px'
+            'background-size': this.bgWidth + 'px'
           }
         }
         return {}
@@ -136,19 +146,32 @@
         areaActiveWrapper.querySelector(`li:nth-child(${index + 1})`).style.display = 'block'
       },
       areaMouseleaveHandler (index) {
-        const areaActiveWrapper = this.$refs.areaActiveWrapper
-        areaActiveWrapper.querySelector(`li:nth-child(${index + 1})`).style.display = 'none'
+        if (index !== this.threeCurrentAreaIndex) {
+          const areaActiveWrapper = this.$refs.areaActiveWrapper
+          areaActiveWrapper.querySelector(`li:nth-child(${index + 1})`).style.display = 'none'
+        }
       },
       imgClickHandler (event) {
         if (this.threeCurrentAreaIndex > -1) {
           const coord = this.getRelativeMousePosi(event, event.currentTarget)
-          this.position.left = coord.left + 'px'
-          this.position.top = coord.top + 'px'
           this.set_area_item({
             left: coord.left,
             top: coord.top
           })
         }
+      }
+    },
+    watch: {
+      threeCurrentAreaIndex (newVal, oldVal) {
+        const areaActiveWrapper = this.$refs.areaActiveWrapper
+        newVal > -1 && areaActiveWrapper && (areaActiveWrapper.querySelector(`li:nth-child(${newVal + 1})`).style.display = 'block')
+        oldVal > -1 && areaActiveWrapper && (areaActiveWrapper.querySelector(`li:nth-child(${oldVal + 1})`).style.display = 'none')
+      }
+    },
+    mounted () {
+      if (this.threeCurrentAreaIndex > -1) {
+        const areaActiveWrapper = this.$refs.areaActiveWrapper
+        areaActiveWrapper.querySelector(`li:nth-child(${this.threeCurrentAreaIndex + 1})`).style.display = 'block'
       }
     }
   }
